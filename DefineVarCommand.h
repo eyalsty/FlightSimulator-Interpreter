@@ -1,4 +1,4 @@
-#ifndef DEFINEVARCOMMAND_H
+/*#ifndef DEFINEVARCOMMAND_H
 #define DEFINEVARCOMMAND_H
 
 #include "Command.h"
@@ -15,4 +15,4 @@ public:
 
 
 };
-#endif
+#endif*/

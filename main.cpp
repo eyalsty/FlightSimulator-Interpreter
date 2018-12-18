@@ -1,8 +1,8 @@
 #include "Command.h"
-#include "DefineVarCommand.h"
 #include "MainClass.h"
 #include "SYalgorithm.h"
 #include "SleepCommand.h"
+#include "PrintCommand.h"
 
 #include <stack>
 #include <queue>
@@ -12,12 +12,9 @@ using namespace std;
 
 int main() {
     queue<string> x;
-    x.push("sleep");
-    x.push("1000");
-    Command* c = new SleepCommand(x);
-    cout << "hello," << endl;
+    //x.push("from the printCommandExecute");
+    Command* c = new PrintCommand(x);
     c->execute();
-    x.push("check123");
-    cout << "world!" << endl;
+    cout << "hello, world!" << endl;
     return 0;
 }

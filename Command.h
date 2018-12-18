@@ -7,6 +7,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "SYalgorithm.h"
+
 using namespace std;
 
 class Command {
@@ -17,6 +19,16 @@ public:
 
     virtual int execute() = 0;
 
+};
+
+class CommandException{
+    const char* error = "ERROR! in function: ";
+    string funcName;
+public:
+    CommandException(const string& _funcName): funcName(_funcName){}
+    void print(){
+        cout << error << funcName << endl;
+    }
 };
 
 #endif
