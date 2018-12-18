@@ -13,6 +13,6 @@ public:
 
     int execute();
 
-    bool isVar(const string &name) const;
+
 };
 #endif
