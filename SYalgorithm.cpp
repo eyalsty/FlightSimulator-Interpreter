@@ -1,16 +1,5 @@
 #include "SYalgorithm.h"
-#include "Command.h"
-#include "DefineVarCommand.h"
-#include "MainClass.h"
 
-#include "Plus.h"
-#include "Minus.h"
-#include "Mul.h"
-#include "Div.h"
-#include "Num.h"
-
-#include <stack>
-#include <deque>
 
 using namespace std;
 

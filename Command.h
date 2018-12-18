@@ -1,7 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <vector>
+#include <queue>
 #include <map>
 #include <string>
 #include <sstream>
@@ -10,8 +10,10 @@
 using namespace std;
 
 class Command {
+    queue<string> &orders;
 public:
-    virtual int execute(const vector<string> &v) = 0;
+    Command(queue<string> &_orders) : orders(_orders){}
+    virtual int execute() = 0;
 };
 
 #endif

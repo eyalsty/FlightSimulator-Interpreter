@@ -3,7 +3,7 @@
 
 // maybe can take those includes down (because of commend).
 #include <iostream>
-#include <vector>
+#include <queue>
 #include <map>
 #include <string>
 #include <sstream>
@@ -16,7 +16,7 @@
 using namespace std;
 
 class MainClass {
-    vector<string> script;
+    queue<string> script;
     map<string, double> symbolTable;
     map<string, Command *> commandTypes;      // have to be  *Command.
 public:

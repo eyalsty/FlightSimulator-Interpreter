@@ -37,6 +37,6 @@ void MainClass::addLineToVector(string &line) {
     iss.str(line);
     // saves the words of line in 'script', without spaces.
     while (getline(iss, word, ' ')) {
-        script.push_back(word);
+        script.push(word);
     }
 }

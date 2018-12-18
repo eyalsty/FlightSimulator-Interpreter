@@ -1,5 +1,3 @@
-
-
 #ifndef PROJECT1_SYALGORITHM_H
 #define PROJECT1_SYALGORITHM_H
 
@@ -7,6 +5,17 @@
 #include <deque>
 #include <string>
 #include <map>
+
+#include "Command.h"
+#include "DefineVarCommand.h"
+#include "MainClass.h"
+#include "Plus.h"
+#include "Minus.h"
+#include "Mul.h"
+#include "Div.h"
+#include "Num.h"
+
+#include <stack>
 
 using namespace std;
 
@@ -17,4 +26,4 @@ void initPrecedence(map<char, int> &precedence);
 Expression *shuntingYard(string exp);
 
 
-#endif //PROJECT1_SYALGORITHM_H
+#endif
