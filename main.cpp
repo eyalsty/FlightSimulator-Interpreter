@@ -11,6 +11,7 @@ using namespace std;
 
 int main() {
     Expression *exp = shuntingYard(string("24/(11-5)+2"));
+    int x=5;
     double test = exp->calculate();
     return 0;
 }

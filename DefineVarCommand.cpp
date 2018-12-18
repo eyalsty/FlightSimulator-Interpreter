@@ -1,6 +1,7 @@
 #include "DefineVarCommand.h"
 
 int DefineVarCommand::execute(const vector<string> &v) {
+    int x=5;
     // assuming that the vector v starting from the var NAME!
     string name;
     double value;
