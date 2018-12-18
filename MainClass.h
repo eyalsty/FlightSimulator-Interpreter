@@ -18,7 +18,7 @@ using namespace std;
 class MainClass {
     queue<string> script;
     map<string, double> symbolTable;
-    map<string, Command *> commandTypes;      // have to be  *Command.
+    map<string, Command *> commandTypes;
 public:
     void lexer(const char *fileName);
 

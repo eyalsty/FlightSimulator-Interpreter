@@ -10,10 +10,13 @@
 using namespace std;
 
 class Command {
+protected:
     queue<string> &orders;
 public:
-    Command(queue<string> &_orders) : orders(_orders){}
+    explicit Command(queue<string> &_orders) : orders(_orders) {}
+
     virtual int execute() = 0;
+
 };
 
 #endif

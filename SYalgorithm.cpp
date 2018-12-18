@@ -39,7 +39,6 @@ void initPrecedence(map<char, int> &precedence) {
     precedence['-'] = 1;
     precedence['*'] = 2;
     precedence['/'] = 2;
-    int x=5;
 }
 
 Expression *shuntingYard(string exp) {
