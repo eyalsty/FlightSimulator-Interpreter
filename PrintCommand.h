@@ -11,8 +11,10 @@ public:
 
     int execute(){
         if(!orders.empty()) {
+            // printing the string.
             cout << orders.front() << endl;
             orders.pop();
+
             return NUM_OF_ARGS;
         }else {
             throw CommandException("print");
@@ -20,4 +22,4 @@ public:
     }
 };
 
-#endif //PROJECT1_PRINTCOMMAND_H
+#endif

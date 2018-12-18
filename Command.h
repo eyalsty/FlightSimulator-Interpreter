@@ -21,12 +21,14 @@ public:
 
 };
 
-class CommandException{
-    const char* error = "ERROR! in function: ";
+class CommandException {
+    const char *error = "ERROR! in function: ";
     string funcName;
 public:
-    CommandException(const string& _funcName): funcName(_funcName){}
-    void print(){
+    // getting the name of the function with the Error.
+    CommandException(const string &_funcName) : funcName(_funcName) {}
+
+    void print() const {
         cout << error << funcName << endl;
     }
 };

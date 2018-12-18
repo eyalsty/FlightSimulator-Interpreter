@@ -12,9 +12,13 @@ using namespace std;
 
 int main() {
     queue<string> x;
-    //x.push("from the printCommandExecute");
+    x.push("from the printCommandExecute");
+    try{
     Command* c = new PrintCommand(x);
     c->execute();
+    } catch (const CommandException& e){
+        e.print();
+    }
     cout << "hello, world!" << endl;
     return 0;
 }
