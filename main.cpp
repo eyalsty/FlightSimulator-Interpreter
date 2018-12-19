@@ -3,6 +3,7 @@
 #include "SYalgorithm.h"
 #include "SleepCommand.h"
 #include "PrintCommand.h"
+#include "ControlParser.h"
 
 #include <stack>
 #include <queue>
@@ -11,14 +12,15 @@
 using namespace std;
 
 int main() {
-    queue<string> x;
-    x.push("from the printCommandExecute");
-    try{
-    Command* c = new PrintCommand(x);
-    c->execute();
-    } catch (const CommandException& e){
-        e.print();
-    }
+    map<string, double> symbols;
+    symbols.insert(pair<string, double>("x", -83));
+    symbols.insert(pair<string, double>("throttle", 83));
+    queue<string> orders;
+    orders.push("throttle!=x");
+    Command *c = new ControlParser(symbols, orders);
+    cout << (c->execute() ? "true" : "false") << endl;
+
     cout << "hello, world!" << endl;
+
     return 0;
 }
