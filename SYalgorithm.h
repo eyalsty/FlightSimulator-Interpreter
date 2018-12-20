@@ -7,7 +7,7 @@
 #include <map>
 
 #include "Command.h"
-#include "DefineVarCommand.h"
+#include "oldDefineVarCommand.h"
 #include "MainClass.h"
 #include "Plus.h"
 #include "Minus.h"

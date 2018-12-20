@@ -1,18 +1,23 @@
-/*#ifndef DEFINEVARCOMMAND_H
-#define DEFINEVARCOMMAND_H
+
+#ifndef PROJECT1_DEFINEVARCOMMAND_H
+#define PROJECT1_DEFINEVARCOMMAND_H
 
 #include "Command.h"
 
-# define MIN_ARGS 3
+using namespace std;
 
 class DefineVarCommand : public Command {
-
+private:
+    map<string, string> &symTbl;
+    map<string, string> &pathTbl;
 public:
-    explicit DefineVarCommand(queue<string> &_orders)
-    : Command(_orders) {}
+    DefineVarCommand(queue<string> &_orders,
+                              map<string, string> &symTbl, map<string, string> &pathTbl) : Command(_orders),
+    symTbl(symTbl), pathTbl(pathTbl)  {}
 
-    int execute();
+    int DefineVarCommand::execute();
+
+    };
 
 
-};
-#endif*/
+#endif //PROJECT1_DEFINEVARCOMMAND_H

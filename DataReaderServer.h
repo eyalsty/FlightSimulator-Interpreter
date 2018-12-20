@@ -1,0 +1,12 @@
+
+
+#ifndef PROJECT1_DATAREADERSERVER_H
+#define PROJECT1_DATAREADERSERVER_H
+
+
+class DataReaderServer {
+
+};
+
+
+#endif //PROJECT1_DATAREADERSERVER_H

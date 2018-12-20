@@ -1,26 +1,33 @@
+
+
 #include "DefineVarCommand.h"
 
-/*int DefineVarCommand::execute(const vector<string> &v) {
+int DefineVarCommand::execute() {
     // assuming that the vector v starting from the var NAME!
     string name;
     double value;
     unsigned int offset;        // the offset which well need to return.
 
-    // we need at least 3 arguments to var (name,'=' and value\s).
-    if (v.size() >= MIN_ARGS) {
-        if (v[2] == "bind") {
-            // needs to do execute(), than save its name & value.
+    string varName = this->orders.front();
+    this->orders.pop(); //pop var's name
+    this->orders.pop(); //pop " = "
 
-            offset = 4;
-
-            // also another condition for for complex expression.
-        } else {
-            name = v[0];
-            istringstream(v[2]) >> value;
-            offset = 3;
+    string check = this->orders.front(); //ssget first var's argument
+    this->orders.pop(); //pop first argument
+    if (check == "bind") {
+        string arg = this->orders.front();
+        this->orders.pop(); //pop binded arg
+        if (pathTbl.find(arg) != pathTbl.end()) { // bind with other var
+            auto i = pathTbl.find(arg);
+            pathTbl[varName] = i->second;
+            auto it = symTbl.find(arg);
+            symTbl[varName] = it->second;
+        } else {    //bind with some adress ASSUMING there is no ""
+            pathTbl[varName] = arg;
+            symTbl[varName] = "0";    //set initialized value to 0
         }
-        symbolTable.insert(pair<string, double>(name, value));
-        return offset;
+    }
+
     } else {
         cout << "ERROR! not enough arguments for commend VAR." << endl;
         return -1;
@@ -30,4 +37,4 @@
 bool DefineVarCommand::isVar(const string &name) const {
     // returning true if there is 'name' var, or false otherwise.
     return symbolTable.find(name) != symbolTable.end();
-}*/
+}
