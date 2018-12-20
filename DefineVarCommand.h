@@ -11,10 +11,11 @@ class DefineVarCommand : public Command {
 private:
     SymbolTable &symbols;
 public:
-    DefineVarCommand(queue<string> &_orders,
-                     SymbolTable &symbols) : Command(_orders), symbols(symbols)  {}
+    DefineVarCommand(queue<string> &_orders, SymbolTable &symbols) : Command(_orders), symbols(symbols)  {}
 
     int execute();
+    void bindTo(string varName, string bindedTo);
+    vector<string> splitByOperations(string s);
 
     };
 

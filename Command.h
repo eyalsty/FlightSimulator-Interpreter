@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <set>
 
 #include "SYalgorithm.h"
 

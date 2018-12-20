@@ -4,10 +4,10 @@
 using namespace std;
 
 Expression *createExp(deque<string> *tokens) {
-    Expression * retExp;
+    Expression *retExp;
     string token = tokens->back();   //get the last token in the deque
     tokens->pop_back();      //remove the last token
-    if (isdigit(token[0])) {
+    if (isdigit(token[0]) || isdigit(token[1])) {
         double value = stod(token, nullptr);
         retExp = new Num(value);
     } else {
@@ -79,6 +79,9 @@ Expression *shuntingYard(string exp) {
                 }
             }
             foundDig = false;
+        } else if ((!foundDig) && exp[i] == ('-')) { //in case NEGATIVE ("-x")
+            numbers.push_back(string(1, exp[i]));
+            foundDig = true;
         } else {
             // for not getting segmentation fault.
             if (!operators.empty()) {

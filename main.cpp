@@ -5,6 +5,7 @@
 #include "PrintCommand.h"
 #include "ControlParser.h"
 #include "SymbolTable.h"
+#include "DefineVarCommand.h"
 
 #include <stack>
 #include <queue>
@@ -13,10 +14,21 @@
 using namespace std;
 
 int main() {
-    SymbolTable *symbols = new SymbolTable;
-    symbols->setVar("x", 5.5);
-    symbols->setVar("y", 10);
-    symbols->setVar("x", 7);
+
+/*
+    Expression *exp = shuntingYard("-5/10");
+    double result = exp->calculate();
+    */
+    queue<string> a;
+    SymbolTable b;
+    b.setVar("regev", 3);
+    a.push("eyal");
+    a.push("=");
+    a.push("-regev");
+    //a.push("regev*(3+5)");
+    DefineVarCommand *def = new DefineVarCommand(a, b);
+    def->execute();
+    double result = b.getVal("eyal");
 
     return 0;
 }
