@@ -3,19 +3,18 @@
 #define PROJECT1_DEFINEVARCOMMAND_H
 
 #include "Command.h"
+#include "SymbolTable.h"
 
 using namespace std;
 
 class DefineVarCommand : public Command {
 private:
-    map<string, string> &symTbl;
-    map<string, string> &pathTbl;
+    SymbolTable &symbols;
 public:
     DefineVarCommand(queue<string> &_orders,
-                              map<string, string> &symTbl, map<string, string> &pathTbl) : Command(_orders),
-    symTbl(symTbl), pathTbl(pathTbl)  {}
+                     SymbolTable &symbols) : Command(_orders), symbols(symbols)  {}
 
-    int DefineVarCommand::execute();
+    int execute();
 
     };
 

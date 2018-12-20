@@ -3,6 +3,7 @@
 #include "DefineVarCommand.h"
 
 int DefineVarCommand::execute() {
+    /*
     // assuming that the vector v starting from the var NAME!
     string name;
     double value;
@@ -37,4 +38,6 @@ int DefineVarCommand::execute() {
 bool DefineVarCommand::isVar(const string &name) const {
     // returning true if there is 'name' var, or false otherwise.
     return symbolTable.find(name) != symbolTable.end();
-}
+}*/
+     return 0;
+     }
