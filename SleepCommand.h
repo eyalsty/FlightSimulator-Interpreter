@@ -14,9 +14,10 @@ public:
 
     int execute() {
         if(!orders.empty()) {
+            Expression* e = shuntingYard(orders.front());
             // getting the time.
-            unsigned int time =
-                    (unsigned int) shuntingYard(orders.front())->calculate();
+            auto time = (unsigned int) e->calculate();
+            delete e;
             // popping this used oreder from the queue.
             orders.pop();
             // sleeping for 'time' milliseconds.

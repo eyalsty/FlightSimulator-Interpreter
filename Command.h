@@ -20,6 +20,8 @@ public:
 
     virtual int execute() = 0;
 
+    virtual ~Command(){};
+
 };
 
 class CommandException {

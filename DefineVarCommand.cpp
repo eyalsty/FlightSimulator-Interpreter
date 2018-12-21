@@ -1,5 +1,3 @@
-
-
 #include "DefineVarCommand.h"
 
 int DefineVarCommand::execute() {
@@ -12,7 +10,7 @@ int DefineVarCommand::execute() {
     this->orders.pop(); //pop var's name
     this->orders.pop(); //pop " = "
 
-    string check = this->orders.front(); //sget first var's argument
+    string check = this->orders.front(); //get first var's argument
     this->orders.pop(); //pop first argument
     if (check == "bind") {
         string arg = this->orders.front();
@@ -52,25 +50,50 @@ void DefineVarCommand::bindTo(string varName, string bindedTo) {
 vector<string> DefineVarCommand::splitByOperations(string s) {
     vector<string> splitted;
     string buffer;
-    set<char> operations = {'+', '-', '/', '*'};
+    bool foundVar = false;
     for (int i = 0; i < s.length(); ++i) {
-        //if negative number
-        if ((s[i] == '-') && (buffer == "")) {
+        if (isalpha(s[i])) {
             buffer += s[i];
-        }
-        //if its some binary operation, split
-        else if ((operations.find(s[i]) != operations.end()) || s[i] == ')') {
-            if (buffer != "")
-                splitted.push_back(buffer);
-            splitted.push_back(string(1, s[i]));
-            buffer = "";
-        } else if (s[i] == '(') {
-            splitted.push_back(string(1, s[i])); //push as is
+            foundVar = true;
         } else {
-            buffer += s[i];
+            if (foundVar) {
+                splitted.push_back(buffer);
+                buffer = "";
+                foundVar = false;
+            }
+            splitted.push_back(string(1, s[i]));
         }
     }
-    splitted.push_back(buffer);
+    if (buffer != "") {
+        splitted.push_back(buffer);
+    }
     return splitted;
 }
+
+//OLD CODE FOR BACKUP:
+
+/*
+vector<string> splitted;
+string buffer;
+set<char> operations = {'+', '-', '/', '*'};
+for (int i = 0; i < s.length(); ++i) {
+    //if negative number
+    if ((s[i] == '-') && (buffer == "")) {
+        buffer += s[i];
+    }
+    //if its some binary operation, split
+    else if ((operations.find(s[i]) != operations.end()) || s[i] == ')') {
+        if (buffer != "")
+            splitted.push_back(buffer);
+        splitted.push_back(string(1, s[i]));
+        buffer = "";
+    } else if (s[i] == '(') {
+        splitted.push_back(string(1, s[i])); //push as is
+    } else {
+        buffer += s[i];
+    }
+}
+splitted.push_back(buffer);
+return splitted;
+ */
 

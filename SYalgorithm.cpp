@@ -47,6 +47,7 @@ Expression *shuntingYard(string exp) {
     deque<string> numbers;
     stack<char> operators;
     bool foundDig = false;
+    exp = fixDoubleMinus(exp);
     for (int i = 0; i < exp.size(); ++i) {
         if (isdigit(exp[i])) {
             if (foundDig) {
@@ -106,3 +107,27 @@ Expression *shuntingYard(string exp) {
     Expression *retVal = createExp(&numbers);
     return retVal;
 }
+
+string fixDoubleMinus(string s) {
+    while (s.find("--") != string::npos) {
+        int i = s.find("--");
+        s.replace(i, 2, "");
+    }
+    return s;
+}
+/*
+while (s.find("-(-") != string::npos) {
+    string buffer;
+    int temp;
+    int i = s.find("-(-") ;
+    temp =i +3 ; //temp is index of X in: "-(-X...."
+
+    while (s[temp] != ')') {
+        buffer += s[temp];
+        temp++;
+    }
+    s.replace(i,3,buffer);
+
+}
+*/
+

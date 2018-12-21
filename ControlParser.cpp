@@ -3,21 +3,28 @@
 void ControlParser::saveOperandValues(Condition &lg, const string &left,
                                       const string &right) {
     // calculating the left operand (first check if it variable or exp).
-    if (symbolTable.find(left) != symbolTable.end()) {
+    if (symbolTable.isVarExist(left)) {
         // getting a reference to the var!
-        lg.operandL = symbolTable[left];
+        lg.operandL = symbolTable.getVal(left);
     } else {
+        Expression* e = shuntingYard(left);
         // it isn't in the map, so its an expression.
-        lg.operandL = shuntingYard(left)->calculate();
+        lg.operandL = e->calculate();
+        delete e;
     }
 
     // calculating the right operand (first check if it variable or exp.
-    if (symbolTable.find(right) != symbolTable.end()) {
+    if (symbolTable.isVarExist(right)) {
         // getting a reference to the var!
-        lg.operandR = symbolTable[right];
+        lg.operandR = symbolTable.getVal(right);
     } else {
-        lg.operandR = shuntingYard(right)->calculate();
+        Expression* e = shuntingYard(right);
+        lg.operandR = e->calculate();
+        delete e;
     }
+    // so we can updating their values on run - time.
+    lg.nameL = left;
+    lg.nameR = right;
 }
 
 void ControlParser::initCondition() {
@@ -55,6 +62,20 @@ void ControlParser::initCondition() {
 }
 
 
+void ControlParser::updateCondition(){
+
+    /*checks if the values of the condition variables has
+     * changed, and updating the condition accordingly.*/
+
+    if(symbolTable.isVarExist(logicExp.nameR)){
+        logicExp.operandR = symbolTable.getVal(logicExp.nameR);
+    }
+    if(symbolTable.isVarExist(logicExp.nameL)){
+        logicExp.operandL = symbolTable.getVal(logicExp.nameL);
+    }
+}
+
+
 bool ControlParser::isCondTrue() {
     // mapping the string operator to its value, and returning the answer.
     if (logicExp.condOperator == ">") {
@@ -72,6 +93,23 @@ bool ControlParser::isCondTrue() {
     }
 }
 
+string &ControlParser::popOrder() {
+    string &y = orders.front();
+    orders.pop();
+
+    return y;
+}
+
+void ControlParser::cleanScope() {
+    // cleaning the 'if' scope. we need it when the condition == false.
+    while (orders.front() != "}") {
+        orders.pop();
+    }
+    orders.pop();       // popping the '}'.
+}
+
 int ControlParser::execute() {
+    updateCondition();
     return isCondTrue();
 }
+

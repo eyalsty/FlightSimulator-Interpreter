@@ -1,9 +1,9 @@
-
 #ifndef PROJECT1_SYMBOLTABLE_H
 #define PROJECT1_SYMBOLTABLE_H
 
 #include <map>
 #include <string>
+
 using namespace std;
 
 class SymbolTable {
@@ -20,4 +20,4 @@ public:
 };
 
 
-#endif //PROJECT1_SYMBOLTABLE_H
+#endif
