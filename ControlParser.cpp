@@ -95,8 +95,10 @@ bool ControlParser::isCondTrue() {
 
 string &ControlParser::popOrder() {
     string &y = orders.front();
+    if(symbolTable.isVarExist(y)){
+        return y;
+    }
     orders.pop();
-
     return y;
 }
 
@@ -107,6 +109,7 @@ void ControlParser::cleanScope() {
     }
     orders.pop();       // popping the '}'.
 }
+
 
 int ControlParser::execute() {
     updateCondition();

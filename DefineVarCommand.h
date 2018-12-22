@@ -19,5 +19,4 @@ public:
 
 };
 
-
 #endif //PROJECT1_DEFINEVARCOMMAND_H

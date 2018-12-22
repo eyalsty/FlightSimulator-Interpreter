@@ -7,7 +7,6 @@
 #include <map>
 
 #include "Command.h"
-#include "MainClass.h"
 #include "Plus.h"
 #include "Minus.h"
 #include "Mul.h"

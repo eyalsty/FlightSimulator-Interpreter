@@ -1,11 +1,10 @@
 #include "Command.h"
-#include "MainClass.h"
+#include "ClassMain.h"
 #include "SYalgorithm.h"
 #include "SleepCommand.h"
 #include "PrintCommand.h"
 #include "IfCommand.h"
 #include "WhileCommand.h"
-#include "DefineVarCommand.h"
 
 #include <stack>
 #include <queue>
@@ -14,16 +13,13 @@
 using namespace std;
 
 int main() {
-    queue<string> a;
-    SymbolTable b;
-    b.setVar("x",-3);
-    //a.push("Var");
-    a.push("regev");
-    a.push("=");
-    a.push("-x");
-    DefineVarCommand* def = new DefineVarCommand(a,b);
-    def->execute();
-    double result = b.getVal("regev");
-
+    ClassMain m;
+    string s = "var throttle = bind \"controls/throttle/engine\"";
+    string s2 = "var roll =  -30-(30 * 80)";
+    m.saveVarCommand(s);
+    m.saveVarCommand(s2);
+    string ss = "3*(-22 / 3 ) 4";
+    m.saveServerCommand(ss);
+    cout << "asdasd" << endl;
     return 0;
 }

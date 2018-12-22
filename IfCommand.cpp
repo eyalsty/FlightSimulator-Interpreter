@@ -38,6 +38,10 @@ Command *IfCommand::getCommand(const string &name) {
         return new SleepCommand(orders);
     } else if (name == "if") {
         return new IfCommand(symbolTable, orders);
+    } else if(symbolTable.isVarExist(name)) {
+        return new AssignCommand(orders, symbolTable);
+    } else if(name == "while"){
+        return new WhileCommand(symbolTable,orders);
     } else {
         return nullptr;
     }

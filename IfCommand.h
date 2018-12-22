@@ -4,6 +4,8 @@
 #include "ControlParser.h"
 #include "PrintCommand.h"
 #include "SleepCommand.h"
+#include "AssignCommand.h"
+#include "WhileCommand.h"
 
 
 class IfCommand : public ControlParser {

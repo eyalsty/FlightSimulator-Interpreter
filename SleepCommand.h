@@ -18,7 +18,7 @@ public:
             // getting the time.
             auto time = (unsigned int) e->calculate();
             delete e;
-            // popping this used oreder from the queue.
+            // popping this used order from the queue.
             orders.pop();
             // sleeping for 'time' milliseconds.
             std::this_thread::sleep_for(std::chrono::milliseconds(time));
