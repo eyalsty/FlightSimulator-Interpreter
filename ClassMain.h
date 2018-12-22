@@ -188,17 +188,35 @@ public:
     }
 
     void saveServerCommand(string line){
+        string first,second,temp;
+        //push "OpenDataServer"
         script.push(getFirstWord(line));
         regex reg("\\w*");
         smatch match;
 
         regex_search(line, match, reg);
-        line = match.suffix().str();
+        line = match.suffix().str(); //get what after "open..."
 
-        reg = regex(".+[ ]{1}");
+        reg = regex(".+[ ]{1}"); //search for digit,space , digit
         regex_search(line,match,reg);
+        temp = match.str(); //get first expression (not ready)
+        line = match.suffix().str(); //rest of the line(after first word)
 
-        cout << match.str() << endl;
+        reg = regex("[^ ]");
+        //remove all spaces in first expression
+        while(regex_search(temp, match, reg)) {
+            first += match.str();
+            temp = match.suffix().str();
+        }
+        script.push(first);
+
+        //remove all spaces in the second expression
+        while(regex_search(line, match, reg)) {
+            second += match.str();
+            line = match.suffix().str();
+        }
+        script.push(second);
+
     }
 };
 

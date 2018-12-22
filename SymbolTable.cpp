@@ -77,3 +77,14 @@ vector<string> SymbolTable::splitVars(string s) {
         splitted.push_back(buffer);
     return splitted;
 }
+
+void SymbolTable::updateFromSimulator(float num, string path) {
+    for (auto it = this->pathTbl.begin(); it != this->pathTbl.end(); ++it) {
+        if (!(it->second.compare(path))) {
+            string name = (*it).first;
+            //m.lock();
+            this->symTbl[name] = (double) num;
+            // m.unlock();
+        }
+    }
+}

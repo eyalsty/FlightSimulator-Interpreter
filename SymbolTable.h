@@ -28,7 +28,9 @@ public:
 
     string switchVarsToVals(string s);
 
-};
+    void updateFromSimulator(float num, string path);
+
+    };
 
 
 #endif //PROJECT1_SYMBOLTABLE_H

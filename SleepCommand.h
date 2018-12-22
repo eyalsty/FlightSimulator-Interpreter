@@ -1,12 +1,12 @@
 #ifndef SLEEPCOMMAND_H
 #define SLEEPCOMMAND_H
+#define ARG_NUM 1
 
 #include <chrono>
 #include <thread>
 
 #include "Command.h"
 
-#define ARG_NUM 1
 
 class SleepCommand : public Command {
 public:

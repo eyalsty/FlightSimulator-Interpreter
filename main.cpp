@@ -18,8 +18,8 @@ int main() {
     string s2 = "var roll =  -30-(30 * 80)";
     m.saveVarCommand(s);
     m.saveVarCommand(s2);
-    string ss = "3*(-22 / 3 ) 4";
-    m.saveServerCommand(ss);
+    string ss = "open 127.0.0.1 4";
+    m.saveConnectCommand(ss);
     cout << "asdasd" << endl;
     return 0;
 }

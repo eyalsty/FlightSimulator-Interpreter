@@ -6,7 +6,6 @@
 #include <string>
 #include <map>
 
-#include "Command.h"
 #include "Plus.h"
 #include "Minus.h"
 #include "Mul.h"
@@ -26,4 +25,4 @@ Expression *shuntingYard(string exp);
 
 
 
-#endif
+#endif //PROJECT1_SYALGORITHM_H

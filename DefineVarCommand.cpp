@@ -68,4 +68,3 @@ for (int i = 0; i < s.length(); ++i) {
 splitted.push_back(buffer);
 return splitted;
  */
-
