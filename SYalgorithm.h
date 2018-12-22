@@ -13,18 +13,20 @@
 #include "Mul.h"
 #include "Div.h"
 #include "Num.h"
+#include "SymbolTable.h"
 
 #include <stack>
 
 using namespace std;
 
-Expression *createExp(deque <string> *tokens);
+Expression *createExp(deque<string> *tokens);
 
 void initPrecedence(map<char, int> &precedence);
 
 Expression *shuntingYard(string exp);
 
 string fixDoubleMinus(string s);
+
 
 
 #endif

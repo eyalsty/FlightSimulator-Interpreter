@@ -1,16 +1,16 @@
+
+
 #include "DefineVarCommand.h"
 
 int DefineVarCommand::execute() {
     // assuming that the vector v starting from the var NAME!
-    string expressionS;
-    string temp;
     unsigned int offset;        // the offset which well need to return.
 
     string varName = this->orders.front();
     this->orders.pop(); //pop var's name
     this->orders.pop(); //pop " = "
 
-    string check = this->orders.front(); //get first var's argument
+    string check = this->orders.front(); //sget first var's argument
     this->orders.pop(); //pop first argument
     if (check == "bind") {
         string arg = this->orders.front();
@@ -18,18 +18,8 @@ int DefineVarCommand::execute() {
         bindTo(varName, arg); //bind the new var to arg
 
     } else { //check is not "bind", and can be like: "3+y/5..."
-        vector<string> splitted = splitByOperations(check);
-        //switch all vars to their values
-        for (int i = 0; i < splitted.size(); ++i) {
-            temp = "";
-            if (symbols.isVarExist(splitted[i])) {//check if its a var
-                temp = to_string(symbols.getVal(splitted[i]));
-            } else {
-                temp = splitted[i];
-            }
-            expressionS += temp;
-        }
-        double value = shuntingYard(expressionS)->calculate();
+        check = this->symbols.switchVarsToVals(check);
+        double value = shuntingYard(check)->calculate();
         symbols.setVar(varName, value);
     }
     return 1;
@@ -47,30 +37,9 @@ void DefineVarCommand::bindTo(string varName, string bindedTo) {
     }
 }
 
-vector<string> DefineVarCommand::splitByOperations(string s) {
-    vector<string> splitted;
-    string buffer;
-    bool foundVar = false;
-    for (int i = 0; i < s.length(); ++i) {
-        if (isalpha(s[i])) {
-            buffer += s[i];
-            foundVar = true;
-        } else {
-            if (foundVar) {
-                splitted.push_back(buffer);
-                buffer = "";
-                foundVar = false;
-            }
-            splitted.push_back(string(1, s[i]));
-        }
-    }
-    if (buffer != "") {
-        splitted.push_back(buffer);
-    }
-    return splitted;
-}
 
-//OLD CODE FOR BACKUP:
+
+//OLD CODE FOR BACKUP: (SPLIT BY OPERATIONS)
 
 /*
 vector<string> splitted;

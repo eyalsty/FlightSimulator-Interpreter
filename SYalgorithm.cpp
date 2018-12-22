@@ -3,51 +3,13 @@
 
 using namespace std;
 
-Expression *createExp(deque<string> *tokens) {
-    Expression *retExp;
-    string token = tokens->back();   //get the last token in the deque
-    tokens->pop_back();      //remove the last token
-    if (isdigit(token[0]) || isdigit(token[1])) {
-        double value = stod(token, nullptr);
-        retExp = new Num(value);
-    } else {
-        Expression *r = createExp(tokens);
-        Expression *l = createExp(tokens);
-        switch (token[0]) {
-            case '+':
-                retExp = new Plus(l, r);
-                break;
-            case '-':
-                retExp = new Minus(l, r);
-                break;
-            case '*':
-                retExp = new Mul(l, r);
-                break;
-            case '/':
-                retExp = new Div(l, r);
-                break;
-            default:
-                throw "invalid token";
-        }
-    }
-    return retExp;
-}
-
-void initPrecedence(map<char, int> &precedence) {
-    // initialize the precedence of thr operators (mul before plus and such ..)
-    precedence['+'] = 1;
-    precedence['-'] = 1;
-    precedence['*'] = 2;
-    precedence['/'] = 2;
-}
-
 Expression *shuntingYard(string exp) {
     map<char, int> precedence;
     initPrecedence(precedence);
     deque<string> numbers;
     stack<char> operators;
     bool foundDig = false;
-    exp = fixDoubleMinus(exp);
+    exp = fixDoubleMinus(exp); //search for double minus and deltes it
     for (int i = 0; i < exp.size(); ++i) {
         if (isdigit(exp[i])) {
             if (foundDig) {
@@ -108,6 +70,46 @@ Expression *shuntingYard(string exp) {
     return retVal;
 }
 
+Expression *createExp(deque<string> *tokens) {
+    Expression *retExp;
+    string token = tokens->back();   //get the last token in the deque
+    tokens->pop_back();      //remove the last token
+    if (isdigit(token[0]) || isdigit(token[1])) {
+        double value = stod(token, nullptr);
+        retExp = new Num(value);
+    } else {
+        Expression *r = createExp(tokens);
+        Expression *l = createExp(tokens);
+        switch (token[0]) {
+            case '+':
+                retExp = new Plus(l, r);
+                break;
+            case '-':
+                retExp = new Minus(l, r);
+                break;
+            case '*':
+                retExp = new Mul(l, r);
+                break;
+            case '/':
+                retExp = new Div(l, r);
+                break;
+            default:
+                throw "invalid token";
+        }
+    }
+    return retExp;
+}
+
+void initPrecedence(map<char, int> &precedence) {
+    // initialize the precedence of thr operators (mul before plus and such ..)
+    precedence['+'] = 1;
+    precedence['-'] = 1;
+    precedence['*'] = 2;
+    precedence['/'] = 2;
+}
+
+
+//search for double minus and deletes it
 string fixDoubleMinus(string s) {
     while (s.find("--") != string::npos) {
         int i = s.find("--");
@@ -128,6 +130,6 @@ while (s.find("-(-") != string::npos) {
     }
     s.replace(i,3,buffer);
 
-}
-*/
+}*/
+
 

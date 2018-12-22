@@ -1,4 +1,5 @@
 
+#include <set>
 #include "SymbolTable.h"
 
 //ASSUMING VAR EXISTS ALREADY
@@ -36,3 +37,71 @@ bool SymbolTable::isPathExists(string var) {
     return false;
 }
 
+string SymbolTable::switchVarsToVals(string s) {
+    string temp;
+    string expressionS;
+    //get vector splitted by digits,operations and var names
+    vector<string> splitted = splitVars(s);
+    //switch all vars to their values
+    for (int i = 0; i < splitted.size(); ++i) {
+        temp = "";
+        if (isVarExist(splitted[i])) {//check if its a var
+            temp = to_string(getVal(splitted[i]));
+        } else {
+            temp = splitted[i];
+        }
+        expressionS += temp;
+    }
+    return expressionS;
+}
+//split the string by operations
+vector<string> SymbolTable::splitVars(string s) {
+    vector<string> splitted;
+    string buffer;
+    set<char> operations = {'+', '-', '/', '*'};
+    for (int i = 0; i < s.length(); ++i) {
+        //if negative number
+        /*if ((s[i] == '-') && (buffer == "")) {
+            buffer += s[i];
+        }*/
+        //if its some binary operation, split
+        if ((operations.find(s[i]) != operations.end()) || s[i] == ')') {
+            if (buffer != "") {
+                splitted.push_back(buffer);
+                buffer = "";
+            }
+            splitted.push_back(string(1, s[i]));
+        } else if (s[i] == '(') {
+            splitted.push_back(string(1, s[i])); //push as is
+        } else {
+            buffer += s[i];
+        }
+    }
+    if (buffer != "")
+        splitted.push_back(buffer);
+    return splitted;
+}
+
+//suppoer only vars with letters , not "h0"
+/*
+     vector<string> splitted;
+    string buffer;
+    bool foundVar = false;
+    for (int i = 0; i < s.length(); ++i) {
+        if (isalpha(s[i])) {
+            buffer += s[i];
+            foundVar = true;
+        } else {
+            if (foundVar) {
+                splitted.push_back(buffer);
+                buffer = "";
+                foundVar = false;
+            }
+            splitted.push_back(string(1, s[i]));
+        }
+    }
+    if (buffer != "") {
+        splitted.push_back(buffer);
+    }
+    return splitted;
+    */
