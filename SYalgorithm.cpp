@@ -9,9 +9,12 @@ Expression *shuntingYard(string exp) {
     deque<string> numbers;
     stack<char> operators;
     bool foundDig = false;
-    exp = fixDoubleMinus(exp); //search for double minus and deltes it
     for (int i = 0; i < exp.size(); ++i) {
-        if (isdigit(exp[i])) {
+
+        if ((!foundDig) && exp[i] == ('-')) { //in case NEGATIVE ("-x")
+            numbers.push_back("-1");
+            numbers.push_back(string(1,'*'));
+        } else if (isdigit(exp[i])) {
             if (foundDig) {
                 //chain the digits
                 numbers.back() += string(1, exp[i]);
@@ -42,9 +45,6 @@ Expression *shuntingYard(string exp) {
                 }
             }
             foundDig = false;
-        } else if ((!foundDig) && exp[i] == ('-')) { //in case NEGATIVE ("-x")
-            numbers.push_back(string(1, exp[i]));
-            foundDig = true;
         } else {
             // for not getting segmentation fault.
             if (!operators.empty()) {
@@ -107,29 +107,5 @@ void initPrecedence(map<char, int> &precedence) {
     precedence['*'] = 2;
     precedence['/'] = 2;
 }
-
-
-//search for double minus and deletes it
-string fixDoubleMinus(string s) {
-    while (s.find("--") != string::npos) {
-        int i = s.find("--");
-        s.replace(i, 2, "");
-    }
-    return s;
-}
-/*
-while (s.find("-(-") != string::npos) {
-    string buffer;
-    int temp;
-    int i = s.find("-(-") ;
-    temp =i +3 ; //temp is index of X in: "-(-X...."
-
-    while (s[temp] != ')') {
-        buffer += s[temp];
-        temp++;
-    }
-    s.replace(i,3,buffer);
-
-}*/
 
 

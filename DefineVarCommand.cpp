@@ -16,13 +16,16 @@ int DefineVarCommand::execute() {
         string arg = this->orders.front();
         this->orders.pop(); //pop binded arg
         bindTo(varName, arg); //bind the new var to arg
-
+        offset = 4;
     } else { //check is not "bind", and can be like: "3+y/5..."
         check = this->symbols.switchVarsToVals(check);
-        double value = shuntingYard(check)->calculate();
+        Expression *exp = shuntingYard(check);
+        double value = exp->calculate();
         symbols.setVar(varName, value);
+        delete exp;
+        offset = 3;
     }
-    return 1;
+    return offset;
 }
 
 void DefineVarCommand::bindTo(string varName, string bindedTo) {

@@ -25,8 +25,6 @@ void initPrecedence(map<char, int> &precedence);
 
 Expression *shuntingYard(string exp);
 
-string fixDoubleMinus(string s);
-
 
 
 #endif

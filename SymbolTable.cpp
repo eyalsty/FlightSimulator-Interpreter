@@ -60,10 +60,6 @@ vector<string> SymbolTable::splitVars(string s) {
     string buffer;
     set<char> operations = {'+', '-', '/', '*'};
     for (int i = 0; i < s.length(); ++i) {
-        //if negative number
-        /*if ((s[i] == '-') && (buffer == "")) {
-            buffer += s[i];
-        }*/
         //if its some binary operation, split
         if ((operations.find(s[i]) != operations.end()) || s[i] == ')') {
             if (buffer != "") {
@@ -81,27 +77,3 @@ vector<string> SymbolTable::splitVars(string s) {
         splitted.push_back(buffer);
     return splitted;
 }
-
-//suppoer only vars with letters , not "h0"
-/*
-     vector<string> splitted;
-    string buffer;
-    bool foundVar = false;
-    for (int i = 0; i < s.length(); ++i) {
-        if (isalpha(s[i])) {
-            buffer += s[i];
-            foundVar = true;
-        } else {
-            if (foundVar) {
-                splitted.push_back(buffer);
-                buffer = "";
-                foundVar = false;
-            }
-            splitted.push_back(string(1, s[i]));
-        }
-    }
-    if (buffer != "") {
-        splitted.push_back(buffer);
-    }
-    return splitted;
-    */

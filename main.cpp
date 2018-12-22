@@ -5,6 +5,7 @@
 #include "PrintCommand.h"
 #include "IfCommand.h"
 #include "WhileCommand.h"
+#include "DefineVarCommand.h"
 
 #include <stack>
 #include <queue>
@@ -13,35 +14,16 @@
 using namespace std;
 
 int main() {
-    try {
-        SymbolTable s;
-        s.setVar("x", 35);
-        s.setVar("throttle", 40);
-
-        queue<string> orders;
-        orders.push("throttle>x");
-        orders.push("{");
-        orders.push("print");
-        orders.push("x");
-        orders.push("sleep");
-        orders.push("1000");
-        orders.push("if");
-        orders.push("30<=x");
-        orders.push("{");
-        orders.push("print");
-        orders.push("throttle");
-        orders.push("}");
-        orders.push("}");
-
-        Command *c = new IfCommand(s, orders);
-        c->execute();
-
-
-        cout << "hello, world! NUMBER 2!!!" << endl;
-        delete c;
-    } catch (const CommandException &e) {
-        e.print();
-    }
+    queue<string> a;
+    SymbolTable b;
+    b.setVar("x",-3);
+    //a.push("Var");
+    a.push("regev");
+    a.push("=");
+    a.push("-x");
+    DefineVarCommand* def = new DefineVarCommand(a,b);
+    def->execute();
+    double result = b.getVal("regev");
 
     return 0;
 }
