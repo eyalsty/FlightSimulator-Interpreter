@@ -15,7 +15,7 @@ class WhileCommand : public ControlParser {
 public:
     WhileCommand(SymbolTable &_symbolTable, queue<string> &_orders)
             : ControlParser(_symbolTable, _orders) {
-        whileOrders = getOrdersAsQueue();
+        //whileOrders = getOrdersAsQueue();
     }
 
     int execute();

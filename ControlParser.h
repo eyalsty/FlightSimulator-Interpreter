@@ -19,13 +19,21 @@ class ControlParser : public Command {
 protected:
     SymbolTable &symbolTable;
     Condition logicExp;
+    bool isConditionInit;
     const set<string> conditions = {">", "<", ">=", "<=", "=", "!"};
 public:
     ControlParser(SymbolTable &_symbolTable, queue<string> &_orders)
             : Command(_orders), symbolTable(_symbolTable) {
         // setting 'logicExp' values.
-        initCondition();
+        if (!_orders.empty()) {
+            initCondition();
+            isConditionInit = true;
+        } else {
+            // there is no orders yet, so the condition did not initialize.
+            isConditionInit = false;
+        }
     }
+
 
     void saveOperandValues(Condition &lg, const string &left,
                            const string &right);
@@ -42,7 +50,7 @@ public:
 
     virtual int execute();
 
-    virtual ~ControlParser(){}
+    virtual ~ControlParser() {}
 };
 
 #endif

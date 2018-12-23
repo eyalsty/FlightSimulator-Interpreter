@@ -28,6 +28,9 @@ int IfCommand::execute() {
     } else {
         cleanScope();   //cleaning the 'if' scope because it false.
     }
+    // for the next 'IF' block.
+    isConditionInit = false;
+
     return offset;
 }
 
