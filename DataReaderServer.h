@@ -48,7 +48,7 @@ public:
         int hz;
         DataReaderServer *reader;
     };
-    DataReaderServer(SymbolTable &symbols) :symbols(symbols) {}
+    explicit DataReaderServer(SymbolTable &symbols) :symbols(symbols) {}
 
     void openServer(int port, int time);
 

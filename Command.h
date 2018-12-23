@@ -3,7 +3,7 @@
 
 #include <queue>
 #include <map>
-#include <string>
+#include <string.h>
 #include <sstream>
 #include <iostream>
 #include <set>

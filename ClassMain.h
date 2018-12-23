@@ -2,10 +2,6 @@
 #define CLASSMAIN_H
 
 // maybe can take those includes down (because of commend).
-#include <iostream>
-#include <queue>
-#include <map>
-#include <string>
 #include <sstream>
 #include <fstream>
 #include <regex>

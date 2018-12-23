@@ -1,5 +1,4 @@
 
-#include <set>
 #include "SymbolTable.h"
 
 //ASSUMING VAR EXISTS ALREADY
