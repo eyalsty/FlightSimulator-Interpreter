@@ -32,7 +32,7 @@ class ClassMain {
     SymbolTable symbolTable;
     map<string, ExpCommand *> commands;
 public:
-    ClassMain(){
+    ClassMain() {
         initializeExpCommands();
     }
 
@@ -91,9 +91,15 @@ public:
         lexer(fileName);
         while (!script.empty()) {
             // getting the right command.
-            e = commands.at(script.front());
-            script.pop();
-            if (e!= nullptr){
+            if (symbolTable.isVarExist(script.front())) {
+                e = commands.at("assign");
+            } else {
+                e = commands.at(script.front());
+                script.pop();
+            }
+            // script.pop();
+
+            if (e != nullptr) {
                 // calling execute() from calculate().
                 e->calculate();
             }

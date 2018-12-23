@@ -2,10 +2,7 @@
 
 
 int WhileCommand::execute() {
-    // beck up for the while loop queue.
-    queue<string> whileScope = whileOrders;
-    int x = 0;
-    Command *c;
+
     // if the condition is false.
     if (!ControlParser::execute()) {
         // taking out all of the orders from the queue.
@@ -14,14 +11,24 @@ int WhileCommand::execute() {
         }
         whileOrders.pop();
     }
-    // when the condition is true.
+    // we initialize the condition at execute() of CondParser.
+    isConditionInit = true;
+
+    // empty the while scope from the general queue.
+    whileOrders = getOrdersAsQueue();
+
+    // beck up for the while loop queue.
+    queue<string> whileScope = whileOrders;
+
+    int x = 0;
+    Command *c;
     while (ControlParser::execute()) {
         whileOrders = whileScope;
-        // this is the offset.
+        // the offset.
         x += 1;
         string token = whileOrders.front();
-        /* not popping immidiatlly cuz
-         * of the assign command (x = 3 for example.*/
+        /* not popping immidiatlly because
+         * of the assign command (x = 3 for example).*/
         if (!symbolTable.isVarExist(token)) {
             whileOrders.pop();
         }
@@ -47,6 +54,9 @@ int WhileCommand::execute() {
             }
         }
     }
+    /* finished this while command, now we'll need to init again
+     * if wed'e like to do another one.*/
+    isConditionInit = false;
     return x;
 }
 

@@ -7,7 +7,7 @@ void ControlParser::saveOperandValues(Condition &lg, const string &left,
         // getting a reference to the var!
         lg.operandL = symbolTable.getVal(left);
     } else {
-        Expression* e = shuntingYard(left);
+        Expression *e = shuntingYard(left);
         // it isn't in the map, so its an expression.
         lg.operandL = e->calculate();
         delete e;
@@ -18,7 +18,7 @@ void ControlParser::saveOperandValues(Condition &lg, const string &left,
         // getting a reference to the var!
         lg.operandR = symbolTable.getVal(right);
     } else {
-        Expression* e = shuntingYard(right);
+        Expression *e = shuntingYard(right);
         lg.operandR = e->calculate();
         delete e;
     }
@@ -62,15 +62,15 @@ void ControlParser::initCondition() {
 }
 
 
-void ControlParser::updateCondition(){
+void ControlParser::updateCondition() {
 
     /*checks if the values of the condition variables has
      * changed, and updating the condition accordingly.*/
 
-    if(symbolTable.isVarExist(logicExp.nameR)){
+    if (symbolTable.isVarExist(logicExp.nameR)) {
         logicExp.operandR = symbolTable.getVal(logicExp.nameR);
     }
-    if(symbolTable.isVarExist(logicExp.nameL)){
+    if (symbolTable.isVarExist(logicExp.nameL)) {
         logicExp.operandL = symbolTable.getVal(logicExp.nameL);
     }
 }
@@ -95,7 +95,7 @@ bool ControlParser::isCondTrue() {
 
 string &ControlParser::popOrder() {
     string &y = orders.front();
-    if(symbolTable.isVarExist(y)){
+    if (symbolTable.isVarExist(y)) {
         return y;
     }
     orders.pop();
@@ -112,7 +112,14 @@ void ControlParser::cleanScope() {
 
 
 int ControlParser::execute() {
-    updateCondition();
-    return isCondTrue();
+    // the condition initialize already, so we need to update it now.
+    if (isConditionInit) {
+        updateCondition();
+        return isCondTrue();
+    } else {
+        // the condition did not initialize, so now we need to init it.
+        initCondition();
+        return isCondTrue();
+    }
 }
 
