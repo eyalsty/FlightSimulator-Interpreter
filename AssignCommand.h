@@ -13,8 +13,10 @@ public:
             : Command(_orders), symbolTable(_symbolTable) {}
 
     int execute() {
+        // getting the name of the variable.
         string varName = orders.front();
         orders.pop();
+
         if (!symbolTable.isVarExist(varName)) {
             throw CommandException("Assign value");
         } else {
@@ -24,9 +26,11 @@ public:
 
             varValueS = symbolTable.switchVarsToVals(varValueS);
             Expression* e = shuntingYard(varValueS);
+
             // getting the real value of the variable.
             double varValue = e->calculate();
-            // setting it at symbol table.
+
+            // setting it at the symbol table.
             symbolTable.setVar(varName, varValue);
             delete e;
         }

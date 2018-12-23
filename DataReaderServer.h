@@ -1,4 +1,4 @@
-#ifndef PROJECT1_DATAREADERSERVER_H
+/*#ifndef PROJECT1_DATAREADERSERVER_H
 #define PROJECT1_DATAREADERSERVER_H
 #define INDICATE_SPEED "/instrumentation/airspeed-indicator/indicated-speed-kt"
 #define INDICATE_ALT "/instrumentation/altimeter/indicated-altitude-ft"
@@ -62,3 +62,4 @@ public:
 };
 
 #endif //PROJECT1_DATAREADERSERVER_H
+*/

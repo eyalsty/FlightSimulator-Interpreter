@@ -23,6 +23,4 @@ void initPrecedence(map<char, int> &precedence);
 
 Expression *shuntingYard(string exp);
 
-
-
-#endif //PROJECT1_SYALGORITHM_H
+#endif

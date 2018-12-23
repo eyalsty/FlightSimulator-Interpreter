@@ -1,22 +1,23 @@
 #include "IfCommand.h"
 
 int IfCommand::execute() {
-    int x = 0;
+    int offset = 1;
     Command *c;
     // checks if the condition of the 'if' is 'true'
     if (ControlParser::execute()) {
-        x += 1;
         // getting the name of the command from queue.
         string y = popOrder();
+        offset += 1;
         while (y != "}") {
             if (y == "{") {
                 y = popOrder();
+                offset++;
                 continue;
             }
             // getting the command object.
             c = getCommand(y);
             if (c != nullptr) {
-                c->execute();
+                offset += c->execute();
                 delete c;
             } else {
                 throw CommandException(" If condition!");
@@ -27,7 +28,7 @@ int IfCommand::execute() {
     } else {
         cleanScope();   //cleaning the 'if' scope because it false.
     }
-    return x;
+    return offset;
 }
 
 Command *IfCommand::getCommand(const string &name) {
@@ -40,8 +41,10 @@ Command *IfCommand::getCommand(const string &name) {
         return new IfCommand(symbolTable, orders);
     } else if(symbolTable.isVarExist(name)) {
         return new AssignCommand(orders, symbolTable);
-    } else if(name == "while"){
-        return new WhileCommand(symbolTable,orders);
+    } else if(name == "while") {
+        return new WhileCommand(symbolTable, orders);
+    } else if(name == "var"){
+        return new DefineVarCommand(orders,symbolTable);
     } else {
         return nullptr;
     }

@@ -6,6 +6,7 @@
 #include "SleepCommand.h"
 #include "AssignCommand.h"
 #include "WhileCommand.h"
+#include "DefineVarCommand.h"
 
 
 class IfCommand : public ControlParser {

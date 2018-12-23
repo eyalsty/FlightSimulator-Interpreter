@@ -14,14 +14,18 @@ public:
 
     int execute() {
         if (!orders.empty()) {
-            // printing a variable value.
-            if (symbolTable.isVarExist(orders.front())) {
-                cout << symbolTable.getVal(orders.front()) << endl;
-                orders.pop();
-            } else {
-                // printing a string.
+            // its a string.
+            if (orders.front().find('\"') != string::npos) {
                 cout << orders.front() << endl;
                 orders.pop();
+            } else {
+                // its a value of a variable.
+                string varValueS =
+                        symbolTable.switchVarsToVals(orders.front());
+                orders.pop();
+                Expression* e = shuntingYard(varValueS);
+                cout << e->calculate() << endl;
+                delete e;
             }
             return NUM_OF_ARGS;
         } else {

@@ -1,4 +1,3 @@
-
 #ifndef PROJECT1_SYMBOLTABLE_H
 #define PROJECT1_SYMBOLTABLE_H
 
@@ -12,7 +11,9 @@ class SymbolTable {
 private:
     map<string, double> symTbl;
     map<string, string> pathTbl;
-    vector <string> splitVars(string s);
+
+    vector<string> splitVars(string s);
+
 public:
     void setVar(string var, double val);
 
@@ -30,7 +31,6 @@ public:
 
     void updateFromSimulator(float num, string path);
 
-    };
+};
 
-
-#endif //PROJECT1_SYMBOLTABLE_H
+#endif

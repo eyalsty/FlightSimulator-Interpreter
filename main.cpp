@@ -13,13 +13,8 @@
 using namespace std;
 
 int main() {
-    ClassMain m;
-    string s = "var throttle = bind \"controls/throttle/engine\"";
-    string s2 = "var roll =  -30-(30 * 80)";
-    m.saveVarCommand(s);
-    m.saveVarCommand(s2);
-    string ss = "open 127.0.0.1 4";
-    m.saveConnectCommand(ss);
-    cout << "asdasd" << endl;
+    const char* fileName = "checking.txt";
+    ClassMain main;
+    main.parser(fileName);
     return 0;
 }
