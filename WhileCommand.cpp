@@ -6,22 +6,29 @@ int WhileCommand::execute() {
     queue<string> whileScope = whileOrders;
     int x = 0;
     Command *c;
+    // if the condition is false.
     if (!ControlParser::execute()) {
+        // taking out all of the orders from the queue.
         while (whileOrders.front() != "}") {
             whileOrders.pop();
         }
         whileOrders.pop();
     }
+    // when the condition is true.
     while (ControlParser::execute()) {
         whileOrders = whileScope;
+        // this is the offset.
         x += 1;
         string token = whileOrders.front();
+        /* not popping immidiatlly cuz
+         * of the assign command (x = 3 for example.*/
         if (!symbolTable.isVarExist(token)) {
             whileOrders.pop();
         }
         while (token != "}") {
             if (token == "{") {
                 token = whileOrders.front();
+                // for the assign command.
                 if (!symbolTable.isVarExist(token)) {
                     whileOrders.pop();
                 }

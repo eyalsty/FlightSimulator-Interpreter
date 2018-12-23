@@ -90,10 +90,11 @@ public:
         ExpCommand *e;
         lexer(fileName);
         while (!script.empty()) {
-            cout << script.front() << endl;
+            // getting the right command.
             e = commands.at(script.front());
             script.pop();
             if (e!= nullptr){
+                // calling execute() from calculate().
                 e->calculate();
             }
         }
