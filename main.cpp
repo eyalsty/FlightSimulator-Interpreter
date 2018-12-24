@@ -1,20 +1,12 @@
-#include "Command.h"
-#include "ClassMain.h"
-#include "SYalgorithm.h"
-#include "SleepCommand.h"
-#include "PrintCommand.h"
-#include "IfCommand.h"
-#include "WhileCommand.h"
 
-#include <stack>
-#include <queue>
-#include <deque>
+#include "ClassMain.h"
 
 using namespace std;
 
 int main() {
-    const char* fileName = "checking.txt";
+    const char* filename = "text.txt";
     ClassMain main;
-    main.parser(fileName);
+    main.parser(filename);
+
     return 0;
 }

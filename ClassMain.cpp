@@ -127,7 +127,7 @@ void ClassMain::saveVarCommand(string line) {
     if (regex_search(line, match, reg)) {
         script.push("bind");
         line = match.suffix().str();
-        reg = regex("[^ ]+");
+        reg = regex("[^ \"]+");
         regex_search(line, match, reg);
         script.push(match.str());
         // else, saving the expression.

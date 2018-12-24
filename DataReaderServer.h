@@ -1,4 +1,4 @@
-/*#ifndef PROJECT1_DATAREADERSERVER_H
+#ifndef PROJECT1_DATAREADERSERVER_H
 #define PROJECT1_DATAREADERSERVER_H
 #define INDICATE_SPEED "/instrumentation/airspeed-indicator/indicated-speed-kt"
 #define INDICATE_ALT "/instrumentation/altimeter/indicated-altitude-ft"
@@ -52,7 +52,7 @@ public:
 
     void openServer(int port, int time);
 
-    void updateSymbol(float *buffer);
+    void updateSymbols(double *buffer);
 
     static void *thread_func(void *arg);
 
@@ -62,4 +62,3 @@ public:
 };
 
 #endif //PROJECT1_DATAREADERSERVER_H
-*/

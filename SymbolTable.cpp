@@ -16,6 +16,11 @@ string SymbolTable::getPath(string var) {
 
 void SymbolTable::setVar(string var, double val) {
     symTbl[var] = val;
+    //if we updated a var and its binded to the simulator => send him a message
+    if (isPathExists(var)) {
+        string sValue = to_string(symTbl[var]);
+        //this->client.setMembers(true, pathTbl[var] + sValue + "\n\r");
+    }
 }
 
 void SymbolTable::setPath(string var, string path) {
@@ -77,12 +82,12 @@ vector<string> SymbolTable::splitVars(string s) {
     return splitted;
 }
 
-void SymbolTable::updateFromSimulator(float num, string path) {
+void SymbolTable::updateFromSimulator(double num, string path) {
     for (auto it = this->pathTbl.begin(); it != this->pathTbl.end(); ++it) {
         if (!(it->second.compare(path))) {
             string name = (*it).first;
             //m.lock();
-            this->symTbl[name] = (double) num;
+            this->symTbl[name] = num;
             // m.unlock();
         }
     }

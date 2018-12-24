@@ -76,7 +76,7 @@ void ConnectCommand::openClient(string ip, int port) {
                 perror("ERROR writing to socket");
                 exit(1);
             }
-            cout<<msg <<endl; //indication for us to see the message sent
+            cout<<"sent" << msg <<endl; //indication for us to see the message sent
             toSend = false;
         }
     }

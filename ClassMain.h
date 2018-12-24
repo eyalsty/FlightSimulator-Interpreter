@@ -1,13 +1,11 @@
 #ifndef CLASSMAIN_H
 #define CLASSMAIN_H
 
-// maybe can take those includes down (because of commend).
 #include <sstream>
 #include <fstream>
 #include <regex>
 
-#include "ExpCommand.h"     // new
-#include "Command.h"
+#include "CommandExpression.h"
 
 #include "DefineVarCommand.h"
 #include "AssignCommand.h"
@@ -15,18 +13,18 @@
 #include "IfCommand.h"
 #include "PrintCommand.h"
 #include "SleepCommand.h"
-//#include "OpenDataServer.h"       // those two headers need
-//#include "ConnectCommand"         // need to be implemented!!!!!
+#include "OpenDataServer.h"
+#include "ConnectCommand.h"
 
 
-#define EOL '\n'
+#define EOL '\r'
 
 using namespace std;
 
 class ClassMain {
     queue<string> script;
     SymbolTable symbolTable;
-    map<string, ExpCommand *> commands;
+    map<string, Expression *> commands;
 public:
     ClassMain() {
         initializeExpCommands();
@@ -56,34 +54,35 @@ public:
     void saveOther(string line);
 
     void initializeExpCommands() {
-        auto *e = new ExpCommand(new DefineVarCommand(script, symbolTable));
-        commands.insert(pair<string, ExpCommand *>("var", e));
+        auto *e = new CommandExpression(new DefineVarCommand(script, symbolTable));
+        commands.insert(pair<string, Expression *>("var", e));
 
         // pay attention - the case of line with a form of: x = 'something'.
-        e = new ExpCommand(new AssignCommand(script, symbolTable));
-        commands.insert(pair<string, ExpCommand *>("assign", e));
+        e = new CommandExpression(new AssignCommand(script, symbolTable));
+        commands.insert(pair<string, Expression *>("assign", e));
 
-        e = new ExpCommand(new WhileCommand(symbolTable, script));
-        commands.insert(pair<string, ExpCommand *>("while", e));
+        e = new CommandExpression(new WhileCommand(symbolTable, script));
+        commands.insert(pair<string, Expression *>("while", e));
 
-        e = new ExpCommand(new IfCommand(symbolTable, script));
-        commands.insert(pair<string, ExpCommand *>("if", e));
+        e = new CommandExpression(new IfCommand(symbolTable, script));
+        commands.insert(pair<string, Expression *>("if", e));
 
-        e = new ExpCommand(new PrintCommand(symbolTable, script));
-        commands.insert(pair<string, ExpCommand *>("print", e));
+        e = new CommandExpression(new PrintCommand(symbolTable, script));
+        commands.insert(pair<string, Expression *>("print", e));
 
-        e = new ExpCommand(new SleepCommand(script));
-        commands.insert(pair<string, ExpCommand *>("sleep", e));
+        e = new CommandExpression(new SleepCommand(script));
+        commands.insert(pair<string, Expression *>("sleep", e));
 
-        /* *
-         *
-         * the Connect & the OpenDataServer.
-         *
-         * */
+        e =  new CommandExpression(new ConnectCommand(script));
+        commands.insert(pair<string, Expression *>("connect", e));
+
+        e =  new CommandExpression(new OpenDataServer(script,symbolTable,new DataReaderServer(symbolTable)));
+        commands.insert(pair<string, Expression *>("openDataServer", e));
+
     }
 
     void parser(const char *fileName) {
-        ExpCommand *e;
+        Expression *e;
         lexer(fileName);
         while (!script.empty()) {
             // getting the right command.

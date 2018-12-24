@@ -11,7 +11,6 @@
 #include "Mul.h"
 #include "Div.h"
 #include "Num.h"
-#include "SymbolTable.h"
 
 #include <stack>
 

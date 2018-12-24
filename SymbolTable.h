@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include "ConnectCommand.h"
 
 using namespace std;
 
@@ -12,10 +13,12 @@ class SymbolTable {
 private:
     map<string, double> symTbl;
     map<string, string> pathTbl;
+    //ConnectCommand &client;
 
     vector<string> splitVars(string s);
 
 public:
+    //explicit SymbolTable(ConnectCommand &client) : client(client) {}
     void setVar(string var, double val);
 
     void setPath(string var, string path);
@@ -30,7 +33,7 @@ public:
 
     string switchVarsToVals(string s);
 
-    void updateFromSimulator(float num, string path);
+    void updateFromSimulator(double num, string path);
 
 };
 
