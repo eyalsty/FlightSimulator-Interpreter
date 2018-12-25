@@ -37,18 +37,22 @@
 #include <sys/socket.h>
 
 
-
 class DataReaderServer {
 private:
-    SymbolTable &symbols;
+    SymbolTable *symbols;
     bool toStop = false;
+    pthread_mutex_t mutex;
+    bool isConnection = true;
 public:
     struct MyParams {
         int port;
         int hz;
         DataReaderServer *reader;
     };
-    explicit DataReaderServer(SymbolTable &symbols) :symbols(symbols) {}
+
+    DataReaderServer(SymbolTable *symbols, pthread_mutex_t m) :
+        symbols(symbols), mutex(m) {
+    }
 
     void openServer(int port, int time);
 
@@ -56,9 +60,18 @@ public:
 
     static void *thread_func(void *arg);
 
-    inline void stop(){
+    inline void stop() {
         this->toStop = true;
     }
+
+    void setIsConnection(bool sign) {
+        this->isConnection = sign;
+    }
+
+    bool getIsConnection () {
+        return this->isConnection;
+    }
+
 };
 
 #endif //PROJECT1_DATAREADERSERVER_H

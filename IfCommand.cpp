@@ -41,11 +41,11 @@ Command *IfCommand::getCommand(const string &name) {
     } else if (name == "sleep") {
         return new SleepCommand(orders);
     } else if (name == "if") {
-        return new IfCommand(symbolTable, orders);
-    } else if(symbolTable.isVarExist(name)) {
-        return new AssignCommand(orders, symbolTable);
+        return new IfCommand(symbolTable, orders,m);
+    } else if(symbolTable->isVarExist(name)) {
+        return new AssignCommand(orders, symbolTable,m);
     } else if(name == "while") {
-        return new WhileCommand(symbolTable, orders);
+        return new WhileCommand(symbolTable, orders,m);
     } else if(name == "var"){
         return new DefineVarCommand(orders,symbolTable);
     } else {

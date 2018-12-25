@@ -5,11 +5,11 @@ void ConnectCommand::setMembers(bool send, string msg) {
     this->msg = msg;
     this->toSend = send;
 }
+
 //thread for sending messages to simulator
-void* ConnectCommand::thread_func(void* arg)
-{
-    struct MyParams* params = (struct MyParams*) arg;
-    ConnectCommand  *con = params->connection;
+void *ConnectCommand::thread_func(void *arg) {
+    struct MyParams *params = (struct MyParams *) arg;
+    ConnectCommand *con = params->connection;
     //open new client to communicate to simulator
     con->openClient(params->IP, params->port);
     delete params; //finished the communication
@@ -21,10 +21,10 @@ int ConnectCommand::execute() {
     string sIP = this->orders.front(); //get ip from top of queue
     this->orders.pop(); //pop the ip
     string sPort = this->orders.front(); //get port from top of queue
-    Expression * exPort = shuntingYard(sPort);
-    int portNum = (int)exPort->calculate(); //calculate the port
+    Expression *exPort = shuntingYard(sPort);
+    int portNum = (int) exPort->calculate(); //calculate the port
     this->orders.pop(); //pop port from queue
-    struct MyParams* params = new MyParams(); //struct for thread
+    struct MyParams *params = new MyParams(); //struct for thread
     params->port = portNum;
     params->IP = sIP;
     params->connection = this;
@@ -52,18 +52,18 @@ void ConnectCommand::openClient(string ip, int port) {
         fprintf(stderr, "ERROR, no such host\n");
         exit(0);
     }
-
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(port);
 
-    /* Now connect to the server */
+
     if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
         exit(1);
     }
 
+    this->setIsConnection(true);
     /* the client will start waiting for messages to be sent to the simulator,
      * if message is "quit" we will stop.
     */
@@ -71,12 +71,13 @@ void ConnectCommand::openClient(string ip, int port) {
         if (this->toSend) {
             /* Send message to the server */
 
-            n = write(sockfd, msg.c_str(), strlen(buffer));
+            const char* c = msg.c_str();
+            n = write(sockfd, msg.c_str(), strlen(c));
             if (n < 0) {
                 perror("ERROR writing to socket");
                 exit(1);
             }
-            cout<<"sent" << msg <<endl; //indication for us to see the message sent
+            cout << "sent" << msg << endl; //indication for us to see the message sent
             toSend = false;
         }
     }

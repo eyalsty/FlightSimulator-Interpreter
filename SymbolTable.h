@@ -13,12 +13,12 @@ class SymbolTable {
 private:
     map<string, double> symTbl;
     map<string, string> pathTbl;
-    //ConnectCommand &client;
+    ConnectCommand *client;
 
     vector<string> splitVars(string s);
 
 public:
-    //explicit SymbolTable(ConnectCommand &client) : client(client) {}
+    explicit SymbolTable(ConnectCommand *client) : client(client) {}
     void setVar(string var, double val);
 
     void setPath(string var, string path);

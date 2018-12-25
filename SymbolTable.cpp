@@ -19,7 +19,7 @@ void SymbolTable::setVar(string var, double val) {
     //if we updated a var and its binded to the simulator => send him a message
     if (isPathExists(var)) {
         string sValue = to_string(symTbl[var]);
-        //this->client.setMembers(true, pathTbl[var] + sValue + "\n\r");
+        this->client->setMembers(true, pathTbl[var] + sValue + "\r\n");
     }
 }
 

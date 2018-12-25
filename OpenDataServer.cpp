@@ -2,6 +2,8 @@
 #include "OpenDataServer.h"
 
 int OpenDataServer::execute() {
+    //will be changed after connection established
+    this->reader->setIsConnection(false);
     string sPort = this->orders.front();
     this->orders.pop();
 

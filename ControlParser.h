@@ -17,12 +17,12 @@ struct Condition {
 
 class ControlParser : public Command {
 protected:
-    SymbolTable &symbolTable;
+    SymbolTable *symbolTable;
     Condition logicExp;
     bool isConditionInit;
     const set<string> conditions = {">", "<", ">=", "<=", "=", "!"};
 public:
-    ControlParser(SymbolTable &_symbolTable, queue<string> &_orders)
+    ControlParser(SymbolTable *_symbolTable, queue<string> &_orders)
             : Command(_orders), symbolTable(_symbolTable) {
         // setting 'logicExp' values.
         if (!_orders.empty()) {

@@ -29,14 +29,14 @@ int WhileCommand::execute() {
         string token = whileOrders.front();
         /* not popping immidiatlly because
          * of the assign command (x = 3 for example).*/
-        if (!symbolTable.isVarExist(token)) {
+        if (!symbolTable->isVarExist(token)) {
             whileOrders.pop();
         }
         while (token != "}") {
             if (token == "{") {
                 token = whileOrders.front();
                 // for the assign command.
-                if (!symbolTable.isVarExist(token)) {
+                if (!symbolTable->isVarExist(token)) {
                     whileOrders.pop();
                 }
                 continue;
@@ -49,7 +49,7 @@ int WhileCommand::execute() {
                 throw CommandException("while loop!");
             }
             token = whileOrders.front();
-            if (!symbolTable.isVarExist(token)) {
+            if (!symbolTable->isVarExist(token)) {
                 whileOrders.pop();
             }
         }
@@ -90,10 +90,10 @@ Command *WhileCommand::getCommand(const string &name) {
         //} else if (name == "if") {
         //    return new IfCommand(symbolTable, whileOrders);
 
-    } else if (symbolTable.isVarExist(name)) {
-        return new AssignCommand(whileOrders, symbolTable);
+    } else if (symbolTable->isVarExist(name)) {
+        return new AssignCommand(whileOrders, symbolTable,m);
     } else if (name == "while") {
-        return new WhileCommand(symbolTable, whileOrders);
+        return new WhileCommand(symbolTable, whileOrders, m);
     } else if (name == "var") {
         return new DefineVarCommand(whileOrders, symbolTable);
     } else {

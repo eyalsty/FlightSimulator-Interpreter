@@ -7,35 +7,40 @@
 #define ARG_NUM1 3
 
 class AssignCommand : public Command {
-    SymbolTable &symbolTable;
+    SymbolTable *symbolTable;
+    pthread_mutex_t mutex;
 public:
-    AssignCommand(queue<string> &_orders, SymbolTable &_symbolTable)
-            : Command(_orders), symbolTable(_symbolTable) {}
+    AssignCommand(queue<string> &_orders, SymbolTable *_symbolTable, pthread_mutex_t m)
+            : Command(_orders), symbolTable(_symbolTable), mutex(m) {
+    }
 
     int execute() {
+        pthread_mutex_lock(&mutex);
         // getting the name of the variable.
         string varName = orders.front();
         orders.pop();
 
-        if (!symbolTable.isVarExist(varName)) {
+        if (!symbolTable->isVarExist(varName)) {
             throw CommandException("Assign value");
         } else {
             orders.pop();       // for the '='.
             string varValueS = orders.front();
             orders.pop();
 
-            varValueS = symbolTable.switchVarsToVals(varValueS);
-            Expression* e = shuntingYard(varValueS);
+            varValueS = symbolTable->switchVarsToVals(varValueS);
+            Expression *e = shuntingYard(varValueS);
 
             // getting the real value of the variable.
             double varValue = e->calculate();
 
             // setting it at the symbol table.
-            symbolTable.setVar(varName, varValue);
+            symbolTable->setVar(varName, varValue);
             delete e;
         }
+        pthread_mutex_unlock(&mutex);
         return ARG_NUM1;
     }
+
 };
 
 

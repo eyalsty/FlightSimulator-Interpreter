@@ -7,9 +7,9 @@
 #define NUM_OF_ARGS 1
 
 class PrintCommand : public Command {
-    SymbolTable &symbolTable;
+    SymbolTable *symbolTable;
 public:
-    explicit PrintCommand(SymbolTable &_symbolTable, queue<string> &_orders)
+    explicit PrintCommand(SymbolTable *_symbolTable, queue<string> &_orders)
             : Command(_orders), symbolTable(_symbolTable) {}
 
     int execute() {
@@ -21,7 +21,7 @@ public:
             } else {
                 // its a value of a variable.
                 string varValueS =
-                        symbolTable.switchVarsToVals(orders.front());
+                        symbolTable->switchVarsToVals(orders.front());
                 orders.pop();
                 Expression* e = shuntingYard(varValueS);
                 cout << e->calculate() << endl;

@@ -3,7 +3,6 @@
 
 
 void DataReaderServer::openServer(int port, int HZ) {
-
     struct MyParams *params = new MyParams();
     params->port = port;
     params->hz = HZ;
@@ -58,6 +57,9 @@ void *DataReaderServer::thread_func(void *arg) {
         exit(1);
     }
 
+    params->reader->setIsConnection(true);
+    cout << "Server's connection established";
+
     /* If connection is established then start communicating */
     while (!params->reader->toStop) {
         //read all 23 (until \n) values from simulator into s
@@ -82,11 +84,10 @@ void *DataReaderServer::thread_func(void *arg) {
                 start = i + 1;
             }
         }
-        string temp = s.substr(start,s.length()); //add last value
+        string temp = s.substr(start, s.length()); //add last value
         values[valNum] = stod(temp);
 
         cout << values; //Indication for us**
-
         params->reader->updateSymbols(values);
 
         sleep(params->hz / MIL_SEC);
@@ -98,20 +99,23 @@ void *DataReaderServer::thread_func(void *arg) {
 
 void DataReaderServer::updateSymbols(double *buffer) {
     string allPath[MAX_VARS] = {INDICATE_SPEED, INDICATE_ALT,
-                               PRESSURE_ALT, PITCH_DEG,
-                               ROLL_DEG, IN_PITCH_DEG,
-                               IN_ROLL_DEG,
-                               ENC_INDICATE_ALT,
-                               ENC_PRESURE_ALT, GPS_ALT,
-                               GPS_GRND_SPD, GPS_VERTICAL_SPD,
-                               HEAD_DEG, CMPS_HEAD_DEG,
-                               SLIP_SKID, TURN_RATE, SPEED_FPM,
-                               AILERON, ELEVATOR, RUDDER,
-                               FLAPS, THROTTLE, RPM};
+                                PRESSURE_ALT, PITCH_DEG,
+                                ROLL_DEG, IN_PITCH_DEG,
+                                IN_ROLL_DEG,
+                                ENC_INDICATE_ALT,
+                                ENC_PRESURE_ALT, GPS_ALT,
+                                GPS_GRND_SPD, GPS_VERTICAL_SPD,
+                                HEAD_DEG, CMPS_HEAD_DEG,
+                                SLIP_SKID, TURN_RATE, SPEED_FPM,
+                                AILERON, ELEVATOR, RUDDER,
+                                FLAPS, THROTTLE, RPM};
+    pthread_mutex_lock(&mutex);
     for (int i = 0; i <= MAX_VARS; ++i) {
-        this->symbols.updateFromSimulator(buffer[i], allPath[i]);
+        this->symbols->updateFromSimulator(buffer[i], allPath[i]);
     }
     cout << "updated" << endl; //DELETE AFTERWARDS
+    pthread_mutex_unlock(&mutex);
+
 }
 
 

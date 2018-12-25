@@ -8,12 +8,12 @@ using namespace std;
 
 class DefineVarCommand : public Command {
 private:
-    SymbolTable &symbols;
+    SymbolTable *symbols;
 
     void bindTo(string varName, string bindedTo);
 
 public:
-    DefineVarCommand(queue<string> &_orders, SymbolTable &symbols) : Command(_orders), symbols(symbols) {}
+    DefineVarCommand(queue<string> &_orders, SymbolTable *symbols) : Command(_orders), symbols(symbols) {}
 
     int execute();
 

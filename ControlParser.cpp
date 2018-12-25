@@ -3,9 +3,9 @@
 void ControlParser::saveOperandValues(Condition &lg, const string &left,
                                       const string &right) {
     // calculating the left operand (first check if it variable or exp).
-    if (symbolTable.isVarExist(left)) {
+    if (symbolTable->isVarExist(left)) {
         // getting a reference to the var!
-        lg.operandL = symbolTable.getVal(left);
+        lg.operandL = symbolTable->getVal(left);
     } else {
         Expression *e = shuntingYard(left);
         // it isn't in the map, so its an expression.
@@ -14,9 +14,9 @@ void ControlParser::saveOperandValues(Condition &lg, const string &left,
     }
 
     // calculating the right operand (first check if it variable or exp.
-    if (symbolTable.isVarExist(right)) {
+    if (symbolTable->isVarExist(right)) {
         // getting a reference to the var!
-        lg.operandR = symbolTable.getVal(right);
+        lg.operandR = symbolTable->getVal(right);
     } else {
         Expression *e = shuntingYard(right);
         lg.operandR = e->calculate();
@@ -67,11 +67,11 @@ void ControlParser::updateCondition() {
     /*checks if the values of the condition variables has
      * changed, and updating the condition accordingly.*/
 
-    if (symbolTable.isVarExist(logicExp.nameR)) {
-        logicExp.operandR = symbolTable.getVal(logicExp.nameR);
+    if (symbolTable->isVarExist(logicExp.nameR)) {
+        logicExp.operandR = symbolTable->getVal(logicExp.nameR);
     }
-    if (symbolTable.isVarExist(logicExp.nameL)) {
-        logicExp.operandL = symbolTable.getVal(logicExp.nameL);
+    if (symbolTable->isVarExist(logicExp.nameL)) {
+        logicExp.operandL = symbolTable->getVal(logicExp.nameL);
     }
 }
 
@@ -95,7 +95,7 @@ bool ControlParser::isCondTrue() {
 
 string &ControlParser::popOrder() {
     string &y = orders.front();
-    if (symbolTable.isVarExist(y)) {
+    if (symbolTable->isVarExist(y)) {
         return y;
     }
     orders.pop();
