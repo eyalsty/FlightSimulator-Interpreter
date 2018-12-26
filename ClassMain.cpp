@@ -42,6 +42,9 @@ string ClassMain::getFirstWord(const string &line) {
 
 // for the lexer function.
 void ClassMain::addLineToVector(string &line) {
+    if(line == "\r"){
+        return;
+    }
     deleteEol(line);
     cleanStartSpaces(line);
     string word = getFirstWord(line);

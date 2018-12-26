@@ -72,13 +72,13 @@ public:
         commands.insert(pair<string, Expression *>("var", e));
 
         // pay attention - the case of line with a form of: x = 'something'.
-        e = new CommandExpression(new AssignCommand(script, this->symbolTable,mutex));
+        e = new CommandExpression(new AssignCommand(script, this->symbolTable, mutex));
         commands.insert(pair<string, Expression *>("assign", e));
 
-        e = new CommandExpression(new WhileCommand(this->symbolTable, script,mutex));
+        e = new CommandExpression(new WhileCommand(this->symbolTable, script, mutex));
         commands.insert(pair<string, Expression *>("while", e));
 
-        e = new CommandExpression(new IfCommand(this->symbolTable, script,mutex));
+        e = new CommandExpression(new IfCommand(this->symbolTable, script, mutex));
         commands.insert(pair<string, Expression *>("if", e));
 
         e = new CommandExpression(new PrintCommand(this->symbolTable, script));
@@ -87,7 +87,7 @@ public:
         e = new CommandExpression(new SleepCommand(script));
         commands.insert(pair<string, Expression *>("sleep", e));
 
-        this->read = new DataReaderServer(this->symbolTable,mutex);
+        this->read = new DataReaderServer(this->symbolTable, mutex);
         e = new CommandExpression(new OpenDataServer(script,
                                                      this->symbolTable, this->read));
         commands.insert(pair<string, Expression *>("openDataServer", e));

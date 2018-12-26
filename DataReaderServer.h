@@ -21,7 +21,7 @@
 #define ELEVATOR "/controls/flight/elevator"
 #define RUDDER "/controls/flight/rudder"
 #define FLAPS "/controls/flight/flaps"
-#define THROTTLE "/controls/engines/engine/throttle"
+#define THROTTLE "/controls/engines/current-engine/throttle"
 #define RPM "/engines/engine/rpm"
 
 #define MAX_VARS 23
@@ -56,7 +56,7 @@ public:
 
     void openServer(int port, int time);
 
-    void updateSymbols(double *buffer);
+    //void updateSymbols(double *buffer);
 
     static void *thread_func(void *arg);
 
@@ -71,6 +71,8 @@ public:
     bool getIsConnection () {
         return this->isConnection;
     }
+
+    void updateSymbolTable(string& value);
 
 };
 

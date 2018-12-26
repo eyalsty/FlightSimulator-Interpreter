@@ -58,13 +58,13 @@ void *DataReaderServer::thread_func(void *arg) {
     }
 
     params->reader->setIsConnection(true);
-    cout << "Server's connection established";
+    cout << "Server's connection established\n";
 
     /* If connection is established then start communicating */
     while (!params->reader->toStop) {
         //read all 23 (until \n) values from simulator into s
         while (buffer[0] != '\n') {
-            bzero(buffer, 2);
+            //bzero(buffer, 2);
             n = read(newsockfd, buffer, 1);
 
             if (n < 0) {
@@ -73,7 +73,7 @@ void *DataReaderServer::thread_func(void *arg) {
             }
             s += buffer[0];
         }
-        double values[23];
+        /*double values[23];
         int start = 0; //start index
         int valNum = 0; // num of val
         for (int i = 0; i < s.length(); ++i) {
@@ -85,19 +85,47 @@ void *DataReaderServer::thread_func(void *arg) {
             }
         }
         string temp = s.substr(start, s.length()); //add last value
-        values[valNum] = stod(temp);
+        values[valNum] = stod(temp);*/
 
-        cout << values; //Indication for us**
-        params->reader->updateSymbols(values);
-
+        params->reader->updateSymbolTable(s);
+        s = "";
         sleep(params->hz / MIL_SEC);
     }
-
+    close(newsockfd);
     delete params;
     return nullptr;
 }
 
-void DataReaderServer::updateSymbols(double *buffer) {
+void DataReaderServer::updateSymbolTable(string &values) {
+    string allPath[MAX_VARS] = {INDICATE_SPEED, INDICATE_ALT,
+                                PRESSURE_ALT, PITCH_DEG,
+                                ROLL_DEG, IN_PITCH_DEG,
+                                IN_ROLL_DEG,
+                                ENC_INDICATE_ALT,
+                                ENC_PRESURE_ALT, GPS_ALT,
+                                GPS_GRND_SPD, GPS_VERTICAL_SPD,
+                                HEAD_DEG, CMPS_HEAD_DEG,
+                                SLIP_SKID, TURN_RATE, SPEED_FPM,
+                                AILERON, ELEVATOR, RUDDER,
+                                FLAPS, THROTTLE, RPM};
+    istringstream ss(values);
+    char splitChar = ',';
+    vector<double> tokens;
+
+    for (string value; getline(ss, value, splitChar); tokens.push_back(stod(value)));
+
+    pthread_mutex_lock(&mutex);
+    for (int i = 0; i < MAX_VARS; ++i) {
+        if (!tokens.empty()) {
+            this->symbols->updateFromSimulator(tokens[i], allPath[i]);
+
+            cout << "updated" << endl; //DELETE AFTERWARDS
+        }
+    }
+    pthread_mutex_unlock(&mutex);
+}
+
+/*void DataReaderServer::updateSymbols(double *buffer) {
     string allPath[MAX_VARS] = {INDICATE_SPEED, INDICATE_ALT,
                                 PRESSURE_ALT, PITCH_DEG,
                                 ROLL_DEG, IN_PITCH_DEG,
@@ -116,6 +144,6 @@ void DataReaderServer::updateSymbols(double *buffer) {
     cout << "updated" << endl; //DELETE AFTERWARDS
     pthread_mutex_unlock(&mutex);
 
-}
+}*/
 
 

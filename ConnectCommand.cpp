@@ -58,21 +58,22 @@ void ConnectCommand::openClient(string ip, int port) {
     serv_addr.sin_port = htons(port);
 
 
-    if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR connecting");
-        exit(1);
+    while (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+        //perror("ERROR connecting");
+        //exit(1);
+        cout << "WAITING !" << endl;
     }
 
     this->setIsConnection(true);
     /* the client will start waiting for messages to be sent to the simulator,
      * if message is "quit" we will stop.
     */
-    while (this->msg.compare("quit")) {
+    while (!(this->msg == "quit")) {
         if (this->toSend) {
             /* Send message to the server */
 
-            const char* c = msg.c_str();
-            n = write(sockfd, msg.c_str(), strlen(c));
+            //const char *c = msg.c_str();
+            n = write(sockfd, msg.c_str(), msg.size());
             if (n < 0) {
                 perror("ERROR writing to socket");
                 exit(1);
