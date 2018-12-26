@@ -19,7 +19,7 @@ void SymbolTable::setVar(string var, double val) {
     //if we updated a var and its binded to the simulator => send him a message
     if (isPathExists(var)) {
         string sValue = to_string(symTbl[var]);
-        this->client->setMembers(true, pathTbl[var] + " " + sValue + "\r\n");
+        this->client->setMembers(true, "set " + pathTbl[var] + " " + sValue + "\r\n");
     }
 }
 
@@ -28,7 +28,7 @@ void SymbolTable::setPath(string var, string path) {
 }
 
 bool SymbolTable::isVarExist(string var) {
-    if (symTbl.find(var) != symTbl.end()) {
+    if (symTbl.count(var) > 0) {
         return true;
     }
     return false;
@@ -86,6 +86,7 @@ void SymbolTable::updateFromSimulator(double num, string path) {
     for (auto it = this->pathTbl.begin(); it != this->pathTbl.end(); ++it) {
         if (!(it->second.compare(path))) {
             string name = (*it).first;
+            cout << endl << (*it).second << "  " << "updated" << endl;
             //m.lock();
             this->symTbl[name] = num;
             // m.unlock();

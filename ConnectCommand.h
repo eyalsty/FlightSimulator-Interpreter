@@ -18,8 +18,10 @@ private:
     string msg;
     bool toSend = false;
     bool isConnection = true;
+    pthread_mutex_t mutex;
 public:
-    explicit ConnectCommand(queue<string> &_orders) : Command(_orders) {};
+    ConnectCommand(queue<string> &_orders, pthread_mutex_t m) : Command(_orders), mutex(m){};
+
     struct MyParams {
         string IP;
         int port;

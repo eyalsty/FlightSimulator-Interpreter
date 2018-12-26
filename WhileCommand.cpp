@@ -2,8 +2,6 @@
 
 
 int WhileCommand::execute() {
-    cout << "entered the while loop" << endl;
-
     // if the condition is false.
     if (!ControlParser::execute()) {
         // taking out all of the orders from the queue.
@@ -24,7 +22,7 @@ int WhileCommand::execute() {
     int x = 0;
     Command *c;
     while (ControlParser::execute()) {
-        whileOrders = whileScope;s
+        whileOrders = whileScope;
         // the offset.
         x += 1;
         string token = whileOrders.front();

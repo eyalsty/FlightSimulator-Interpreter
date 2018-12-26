@@ -71,6 +71,7 @@ void ConnectCommand::openClient(string ip, int port) {
     */
     while (!(this->msg == "quit")) {
         if (this->toSend) {
+            pthread_mutex_lock(&mutex);
             /* Send message to the server */
 
             //const char *c = msg.c_str();
@@ -79,8 +80,9 @@ void ConnectCommand::openClient(string ip, int port) {
                 perror("ERROR writing to socket");
                 exit(1);
             }
-            cout << "sent" << msg << endl; //indication for us to see the message sent
-            toSend = false;
+            cout << "sent:  " << msg << endl; //indication for us to see the message sent
+            this->setMembers(false, "");
+            pthread_mutex_unlock(&mutex);
         }
     }
 }

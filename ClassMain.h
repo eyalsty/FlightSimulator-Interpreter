@@ -61,7 +61,7 @@ public:
 
     void initializeExpCommands() {
 
-        this->connect = new ConnectCommand(script);
+        this->connect = new ConnectCommand(script, mutex);
 
         auto *e = new CommandExpression(this->connect);
         commands.insert(pair<string, Expression *>("connect", e));
@@ -129,6 +129,8 @@ public:
             ++i;
         }
         pthread_mutex_destroy(&mutex);
+        this->connect->setMembers(true, "quit");
+        this->read->stop();
         // maybe some other deallocating.
     }
 };

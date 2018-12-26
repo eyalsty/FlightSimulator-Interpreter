@@ -63,29 +63,16 @@ void *DataReaderServer::thread_func(void *arg) {
     /* If connection is established then start communicating */
     while (!params->reader->toStop) {
         //read all 23 (until \n) values from simulator into s
+        n = read(newsockfd, buffer, 1);
         while (buffer[0] != '\n') {
-            //bzero(buffer, 2);
-            n = read(newsockfd, buffer, 1);
-
             if (n < 0) {
                 perror("ERROR reading from socket");
                 exit(1);
             }
             s += buffer[0];
+            n = read(newsockfd, buffer, 1);
         }
-        /*double values[23];
-        int start = 0; //start index
-        int valNum = 0; // num of val
-        for (int i = 0; i < s.length(); ++i) {
-            if (s[i] == ',') {
-                string temp = s.substr(start, i - start);
-                values[valNum] = stod(temp);
-                valNum++;
-                start = i + 1;
-            }
-        }
-        string temp = s.substr(start, s.length()); //add last value
-        values[valNum] = stod(temp);*/
+        cout << s << endl;
 
         params->reader->updateSymbolTable(s);
         s = "";

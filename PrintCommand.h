@@ -13,7 +13,6 @@ public:
             : Command(_orders), symbolTable(_symbolTable) {}
 
     int execute() {
-        cout << "entered the print command";
         if (!orders.empty()) {
             // its a string.
             if (orders.front().find('\"') != string::npos) {

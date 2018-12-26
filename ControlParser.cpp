@@ -3,7 +3,8 @@
 void ControlParser::saveOperandValues(Condition &lg, const string &left,
                                       const string &right) {
     // calculating the left operand (first check if it variable or exp).
-    if (symbolTable->isVarExist(left)) {
+    string nLeft = left;
+    if (symbolTable->isVarExist(nLeft)) {
         // getting a reference to the var!
         lg.operandL = symbolTable->getVal(left);
     } else {
@@ -15,7 +16,7 @@ void ControlParser::saveOperandValues(Condition &lg, const string &left,
 
     // calculating the right operand (first check if it variable or exp.
     if (symbolTable->isVarExist(right)) {
-        // getting a reference to the var!
+        // getting a reference to/ the var!
         lg.operandR = symbolTable->getVal(right);
     } else {
         Expression *e = shuntingYard(right);
