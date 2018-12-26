@@ -14,6 +14,7 @@ public:
     explicit SleepCommand(queue<string> &_orders) : Command(_orders) {}
 
     int execute() {
+        cout << "entered the sleep command (in while the loop)";
         if(!orders.empty()) {
             Expression* e = shuntingYard(orders.front());
             // getting the time.

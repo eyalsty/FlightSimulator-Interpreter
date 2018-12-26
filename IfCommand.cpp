@@ -1,4 +1,5 @@
 #include "IfCommand.h"
+#include "WhileCommand.h"
 
 int IfCommand::execute() {
     int offset = 1;

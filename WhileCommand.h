@@ -4,7 +4,6 @@
 #include "ControlParser.h"
 #include "PrintCommand.h"
 #include "SleepCommand.h"
-#include "IfCommand.h"
 #include "AssignCommand.h"
 #include "DefineVarCommand.h"
 

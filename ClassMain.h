@@ -6,7 +6,7 @@
 #include <regex>
 
 #include "CommandExpression.h"
-
+#include <unistd.h>
 #include "DefineVarCommand.h"
 #include "AssignCommand.h"
 #include "WhileCommand.h"
@@ -108,9 +108,9 @@ public:
             while (!this->read->getIsConnection()) {
                 cout << "waiting for client to connect" << endl;
                 sleep(3); //wait 3 seconds
-                this->connect->setIsConnection(true);
+                this->connect->setIsConnection(false);
             }
-            if (this->connect->getIsConnection()) {
+            if (!this->connect->getIsConnection()) {
                 cout << "press enter when autoStart is on" << endl;
                 cin.ignore();
                 cout << "program started" << endl;

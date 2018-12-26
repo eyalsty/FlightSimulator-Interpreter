@@ -2,6 +2,7 @@
 
 
 int WhileCommand::execute() {
+    cout << "entered the while loop" << endl;
 
     // if the condition is false.
     if (!ControlParser::execute()) {
@@ -23,7 +24,7 @@ int WhileCommand::execute() {
     int x = 0;
     Command *c;
     while (ControlParser::execute()) {
-        whileOrders = whileScope;
+        whileOrders = whileScope;s
         // the offset.
         x += 1;
         string token = whileOrders.front();

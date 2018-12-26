@@ -119,7 +119,6 @@ void DataReaderServer::updateSymbolTable(string &values) {
         if (!tokens.empty()) {
             this->symbols->updateFromSimulator(tokens[i], allPath[i]);
 
-            cout << "updated" << endl; //DELETE AFTERWARDS
         }
     }
     pthread_mutex_unlock(&mutex);

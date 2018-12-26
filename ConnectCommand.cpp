@@ -18,6 +18,7 @@ void *ConnectCommand::thread_func(void *arg) {
 
 //ASSUMING IP IS ON TOP OF QUEUE
 int ConnectCommand::execute() {
+    this->setIsConnection(true);
     string sIP = this->orders.front(); //get ip from top of queue
     this->orders.pop(); //pop the ip
     string sPort = this->orders.front(); //get port from top of queue
@@ -63,8 +64,8 @@ void ConnectCommand::openClient(string ip, int port) {
         //exit(1);
         cout << "WAITING !" << endl;
     }
+    cout << "succesfully connected to the plane !" << endl;
 
-    this->setIsConnection(true);
     /* the client will start waiting for messages to be sent to the simulator,
      * if message is "quit" we will stop.
     */

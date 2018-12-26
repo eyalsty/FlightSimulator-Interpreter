@@ -17,7 +17,7 @@ class ConnectCommand : public Command {
 private:
     string msg;
     bool toSend = false;
-    bool isConnection = false;
+    bool isConnection = true;
 public:
     explicit ConnectCommand(queue<string> &_orders) : Command(_orders) {};
     struct MyParams {
