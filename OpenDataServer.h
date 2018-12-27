@@ -9,7 +9,7 @@
 class OpenDataServer : public Command {
 private:
     SymbolTable *symbols;
-    DataReaderServer *reader; //needs to be delted in the MAINCLASS
+    DataReaderServer *reader;
 public:
     OpenDataServer(queue<string> &_orders, SymbolTable *symbols, DataReaderServer *reader) :
             Command(_orders), symbols(symbols), reader(reader) {}

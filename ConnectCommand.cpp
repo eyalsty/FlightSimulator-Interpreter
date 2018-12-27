@@ -1,8 +1,8 @@
 
 #include "ConnectCommand.h"
 
-void ConnectCommand::sendMessage(string p, double v){
-    MsgPacket *pack = new MsgPacket;
+void ConnectCommand::sendMessage(string &p, double v){
+    auto *pack = new MsgPacket;
     pack->path = p;
     pack->value = v;
     this->messages.push(pack);
@@ -10,7 +10,7 @@ void ConnectCommand::sendMessage(string p, double v){
 
 //thread for sending messages to simulator
 void *ConnectCommand::thread_func(void *arg) {
-    struct MyParams *params = (struct MyParams *) arg;
+    auto *params = (MyParams *) arg;
     ConnectCommand *con = params->connection;
     //open new client to communicate to simulator
     con->openClient(params->IP, params->port);
@@ -33,7 +33,7 @@ int ConnectCommand::execute() {
     params->connection = this;
     pthread_t trid; //create new thread for communicating with simulator
     pthread_create(&trid, nullptr, ConnectCommand::thread_func, params);
-    //delete exPort;
+    delete exPort;
     return ARGS_NUM;
 }
 
@@ -43,7 +43,6 @@ void ConnectCommand::openClient(string ip, int port) {
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    char buffer[256];
     /* Create a socket point */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -61,7 +60,6 @@ void ConnectCommand::openClient(string ip, int port) {
     bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(port);
 
-
     while (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         //perror("ERROR connecting");
         //exit(1);
@@ -69,8 +67,9 @@ void ConnectCommand::openClient(string ip, int port) {
     }
     cout << "succesfully connected to the plane !" << endl;
 
-    /* the client will start waiting for messages to be sent to the simulator,
-     * if message is "quit" we will stop.
+    /* the client now listening to mesages in the messages queue.
+     * if its not empty, it will pop the top message and will sent it to the
+     * simulator.
     */
     while (!this->shouldStop) {
         if (!this->messages.empty()) { //if there are packets to send

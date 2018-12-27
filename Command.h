@@ -2,11 +2,9 @@
 #define COMMAND_H
 
 #include <queue>
-#include <map>
 #include <string.h>
 #include <sstream>
 #include <iostream>
-#include <set>
 
 #include "SYalgorithm.h"
 

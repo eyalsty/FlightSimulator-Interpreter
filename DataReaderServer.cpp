@@ -10,6 +10,7 @@ void DataReaderServer::openServer(int port, int HZ) {
 
     pthread_t trid;
     pthread_create(&trid, nullptr, thread_func, params);
+    delete params;
 }
 
 void *DataReaderServer::thread_func(void *arg) {
@@ -79,7 +80,6 @@ void *DataReaderServer::thread_func(void *arg) {
         sleep(params->hz / MIL_SEC);
     }
     close(newsockfd);
-    delete params;
     return nullptr;
 }
 

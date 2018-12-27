@@ -8,10 +8,9 @@
 
 class AssignCommand : public Command {
     SymbolTable *symbolTable;
-    pthread_mutex_t mutex;
 public:
     AssignCommand(queue<string> &_orders, SymbolTable *_symbolTable, pthread_mutex_t m)
-            : Command(_orders), symbolTable(_symbolTable), mutex(m) {
+            : Command(_orders), symbolTable(_symbolTable) {
     }
 
     int execute() {

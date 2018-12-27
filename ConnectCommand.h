@@ -43,7 +43,7 @@ public:
 
     static void *thread_func(void *arg);
 
-    void sendMessage(string p,double v);
+    void sendMessage(string &p,double v);
 
     void setIsConnection(bool sign) {
         this->isConnection = sign;
