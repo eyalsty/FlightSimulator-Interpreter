@@ -15,7 +15,6 @@ public:
     }
 
     int execute() {
-        pthread_mutex_lock(&mutex);
         // getting the name of the variable.
         string varName = orders.front();
         orders.pop();
@@ -37,7 +36,6 @@ public:
             symbolTable->setVar(varName, varValue);
             delete e;
         }
-        pthread_mutex_unlock(&mutex);
         return ARG_NUM1;
     }
 

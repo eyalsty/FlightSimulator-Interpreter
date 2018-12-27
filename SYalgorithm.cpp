@@ -13,7 +13,7 @@ Expression *shuntingYard(string exp) {
 
         if ((!foundDig) && exp[i] == ('-')) { //in case NEGATIVE ("-x")
             numbers.push_back("-1");
-            numbers.push_back(string(1,'*'));
+            operators.push('*');
         } else if (isdigit(exp[i])) {
             if (foundDig) {
                 //chain the digits

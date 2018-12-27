@@ -222,3 +222,66 @@ void ClassMain::saveOther(string line) {
     }
     script.push(exp);
 }
+
+void ClassMain::parser(const char *fileName) {
+    Expression *e;
+    lexer(fileName);
+    while (!script.empty()) {
+        // getting the right command.
+        if (symbolTable->isVarExist(script.front())) {
+            e = commands.at("assign");
+        } else {
+            e = commands.at(script.front());
+            script.pop();
+        }
+        //wait until server is connected
+        while (!this->read->getIsConnection()) {
+            cout << "waiting for client to connect" << endl;
+            sleep(3); //wait 3 seconds
+            this->connect->setIsConnection(false);
+        }
+        if (!this->connect->getIsConnection()) {
+            cout << "press enter when autoStart is on" << endl;
+            cin.ignore();
+            cout << "program started" << endl;
+        }
+        if (e != nullptr) {
+            // calling execute() from calculate().
+            e->calculate();
+        }
+    }
+}
+
+void ClassMain::initExpressionsMap() {
+
+    this->connect = new ConnectCommand(script, mutex);
+
+    auto *e = new CommandExpression(this->connect);
+    commands.insert(pair<string, Expression *>("connect", e));
+
+    this->symbolTable = new SymbolTable(this->connect, mutex);
+
+    e = new CommandExpression(new DefineVarCommand(script, this->symbolTable));
+    commands.insert(pair<string, Expression *>("var", e));
+
+    // pay attention - the case of line with a form of: x = 'something'.
+    e = new CommandExpression(new AssignCommand(script, this->symbolTable, mutex));
+    commands.insert(pair<string, Expression *>("assign", e));
+
+    e = new CommandExpression(new WhileCommand(this->symbolTable, script, mutex));
+    commands.insert(pair<string, Expression *>("while", e));
+
+    e = new CommandExpression(new IfCommand(this->symbolTable, script, mutex));
+    commands.insert(pair<string, Expression *>("if", e));
+
+    e = new CommandExpression(new PrintCommand(this->symbolTable, script));
+    commands.insert(pair<string, Expression *>("print", e));
+
+    e = new CommandExpression(new SleepCommand(script));
+    commands.insert(pair<string, Expression *>("sleep", e));
+
+    this->read = new DataReaderServer(this->symbolTable, mutex);
+    e = new CommandExpression(new OpenDataServer(script,
+                                                 this->symbolTable, this->read));
+    commands.insert(pair<string, Expression *>("openDataServer", e));
+}

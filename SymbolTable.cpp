@@ -15,12 +15,17 @@ string SymbolTable::getPath(string var) {
 }
 
 void SymbolTable::setVar(string var, double val) {
+    pthread_mutex_lock(&m);
     symTbl[var] = val;
     //if we updated a var and its binded to the simulator => send him a message
     if (isPathExists(var)) {
-        string sValue = to_string(symTbl[var]);
-        this->client->setMembers(true, "set " + pathTbl[var] + " " + sValue + "\r\n");
+        this->client->sendMessage(pathTbl[var],symTbl[var] );
+
+        //string sValue = to_string(symTbl[var]);
+        //this->client->setMembers(true, "set " + pathTbl[var] + " " + sValue + "\r\n");
     }
+    pthread_mutex_unlock(&m);
+
 }
 
 void SymbolTable::setPath(string var, string path) {

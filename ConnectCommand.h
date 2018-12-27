@@ -13,12 +13,17 @@
 
 using namespace std;
 
+struct MsgPacket {
+    string path;
+    double value;
+};
+
 class ConnectCommand : public Command {
 private:
-    string msg;
-    bool toSend = false;
     bool isConnection = true;
     pthread_mutex_t mutex;
+    queue<MsgPacket*> messages;
+    bool shouldStop = false;
 public:
     ConnectCommand(queue<string> &_orders, pthread_mutex_t m) : Command(_orders), mutex(m){};
 
@@ -30,11 +35,15 @@ public:
 
     int execute();
 
+    void stop() {
+        this->shouldStop = true;
+    }
+
     void openClient(string ip, int port);
 
     static void *thread_func(void *arg);
 
-    void setMembers(bool send, string msg);
+    void sendMessage(string p,double v);
 
     void setIsConnection(bool sign) {
         this->isConnection = sign;
@@ -44,6 +53,11 @@ public:
         return this->isConnection;
     }
 
+    ~ConnectCommand() {
+        while(!this->messages.empty()) {
+            delete messages.front();
+        }
+    }
 };
 
 

@@ -14,11 +14,12 @@ private:
     map<string, double> symTbl;
     map<string, string> pathTbl;
     ConnectCommand *client;
+    pthread_mutex_t m;
 
     vector<string> splitVars(string s);
 
 public:
-    explicit SymbolTable(ConnectCommand *client) : client(client) {}
+    SymbolTable(ConnectCommand *client, pthread_mutex_t m) : client(client), m(m) {}
     void setVar(string var, double val);
 
     void setPath(string var, string path);

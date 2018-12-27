@@ -1,9 +1,11 @@
 
 #include "ConnectCommand.h"
 
-void ConnectCommand::setMembers(bool send, string msg) {
-    this->msg = msg;
-    this->toSend = send;
+void ConnectCommand::sendMessage(string p, double v){
+    MsgPacket *pack = new MsgPacket;
+    pack->path = p;
+    pack->value = v;
+    this->messages.push(pack);
 }
 
 //thread for sending messages to simulator
@@ -31,6 +33,7 @@ int ConnectCommand::execute() {
     params->connection = this;
     pthread_t trid; //create new thread for communicating with simulator
     pthread_create(&trid, nullptr, ConnectCommand::thread_func, params);
+    //delete exPort;
     return ARGS_NUM;
 }
 
@@ -69,20 +72,23 @@ void ConnectCommand::openClient(string ip, int port) {
     /* the client will start waiting for messages to be sent to the simulator,
      * if message is "quit" we will stop.
     */
-    while (!(this->msg == "quit")) {
-        if (this->toSend) {
+    while (!this->shouldStop) {
+        if (!this->messages.empty()) { //if there are packets to send
             pthread_mutex_lock(&mutex);
+            MsgPacket *curr = messages.front();
+            string send = "set " + curr->path + " " + to_string(curr->value) + "\r\n";
             /* Send message to the server */
 
-            //const char *c = msg.c_str();
-            n = write(sockfd, msg.c_str(), msg.size());
+            n = write(sockfd, send.c_str(), send.size());
             if (n < 0) {
                 perror("ERROR writing to socket");
                 exit(1);
             }
-            cout << "sent:  " << msg << endl; //indication for us to see the message sent
-            this->setMembers(false, "");
+            cout << "sent:  " << send << endl; //indication for us to see the message sent
+            delete curr;
+            messages.pop();
             pthread_mutex_unlock(&mutex);
         }
     }
+    close(sockfd);
 }
