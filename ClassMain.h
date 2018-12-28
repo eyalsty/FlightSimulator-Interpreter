@@ -32,13 +32,21 @@ class ClassMain {
 
     void addLineToVector(string &line); // for the lexer function.
     void cleanStartSpaces(string &line);
+
     void saveOneArgCommand(string line);
+
     void saveCondition(string line);
+
     void saveVarCommand(string line);
+
     void saveConnectCommand(string line);
+
     void saveServerCommand(string line);
+
     void saveOther(string line);
+
     void deleteEol(string &line);
+
     string getFirstWord(const string &line);
 
 public:
@@ -59,15 +67,20 @@ public:
         this->read->stop(); //disconnect the server
 
         // JOIN OTHER THREADS
+        pthread_join(connect->getThread(), nullptr);
+        pthread_join(read->getThread(), nullptr);
+
 
         auto i = commands.begin();
         while (i != commands.end()) {//free all the commands
             delete i->second;
             ++i;
         }
+        delete symbolTable;
         pthread_mutex_destroy(&mutex);         //destroy the mutex
 
         // maybe some other deallocating.
+        cout << "all freed" << endl;
     }
 };
 

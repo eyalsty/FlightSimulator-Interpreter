@@ -9,13 +9,13 @@
 
 using namespace std;
 
+class IfCommand; //foward declaration
+
 class WhileCommand : public ControlParser {
     queue<string> whileOrders;
-    pthread_mutex_t m;
 public:
-    WhileCommand(SymbolTable *_symbolTable, queue<string> &_orders, pthread_mutex_t m)
-            : ControlParser(_symbolTable, _orders), m(m) {
-        //whileOrders = getOrdersAsQueue();
+    WhileCommand(SymbolTable *_symbolTable, queue<string> &_orders)
+            : ControlParser(_symbolTable, _orders) {
     }
 
     int execute();

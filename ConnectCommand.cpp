@@ -20,6 +20,7 @@ void *ConnectCommand::thread_func(void *arg) {
 
 //ASSUMING IP IS ON TOP OF QUEUE
 int ConnectCommand::execute() {
+    int pthread_id;
     this->setIsConnection(true);
     string sIP = this->orders.front(); //get ip from top of queue
     this->orders.pop(); //pop the ip
@@ -31,7 +32,7 @@ int ConnectCommand::execute() {
     params->port = portNum;
     params->IP = sIP;
     params->connection = this;
-    pthread_t trid; //create new thread for communicating with simulator
+    //create new thread for communicating with simulator
     pthread_create(&trid, nullptr, ConnectCommand::thread_func, params);
     delete exPort;
     return ARGS_NUM;

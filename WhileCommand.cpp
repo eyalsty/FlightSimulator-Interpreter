@@ -1,4 +1,5 @@
 #include "WhileCommand.h"
+#include "IfCommand.h"
 
 
 int WhileCommand::execute() {
@@ -86,13 +87,12 @@ Command *WhileCommand::getCommand(const string &name) {
         return new PrintCommand(symbolTable, whileOrders);
     } else if (name == "sleep") {
         return new SleepCommand(whileOrders);
-        //} else if (name == "if") {
-        //    return new IfCommand(symbolTable, whileOrders);
-
+    } else if (name == "if") {
+        return new IfCommand(symbolTable, whileOrders);
     } else if (symbolTable->isVarExist(name)) {
-        return new AssignCommand(whileOrders, symbolTable,m);
+        return new AssignCommand(whileOrders, symbolTable);
     } else if (name == "while") {
-        return new WhileCommand(symbolTable, whileOrders, m);
+        return new WhileCommand(symbolTable, whileOrders);
     } else if (name == "var") {
         return new DefineVarCommand(whileOrders, symbolTable);
     } else {

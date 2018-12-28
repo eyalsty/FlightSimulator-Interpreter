@@ -41,6 +41,7 @@ private:
     SymbolTable *symbols;
     bool toStop = false;
     pthread_mutex_t mutex;
+    pthread_t trid;
     bool isConnection = true;
 public:
     struct MyParams {
@@ -69,6 +70,9 @@ public:
 
     bool getIsConnection () {
         return this->isConnection;
+    }
+    pthread_t getThread() {
+        return trid;
     }
 
     void updateSymbolTable(string& value);

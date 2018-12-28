@@ -12,6 +12,10 @@ public:
     double calculate() {
         return (double) command->execute();
     }
+
+    ~CommandExpression() {
+        delete (this->command);
+    }
 };
 
 #endif

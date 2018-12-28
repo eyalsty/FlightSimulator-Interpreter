@@ -22,6 +22,7 @@ class ConnectCommand : public Command {
 private:
     bool isConnection = true;
     pthread_mutex_t mutex;
+    pthread_t trid;
     queue<MsgPacket*> messages;
     bool shouldStop = false;
 public:
@@ -47,6 +48,10 @@ public:
 
     void setIsConnection(bool sign) {
         this->isConnection = sign;
+    }
+
+    pthread_t getThread() {
+        return trid;
     }
 
     bool getIsConnection() {

@@ -9,7 +9,7 @@
 class AssignCommand : public Command {
     SymbolTable *symbolTable;
 public:
-    AssignCommand(queue<string> &_orders, SymbolTable *_symbolTable, pthread_mutex_t m)
+    AssignCommand(queue<string> &_orders, SymbolTable *_symbolTable)
             : Command(_orders), symbolTable(_symbolTable) {
     }
 

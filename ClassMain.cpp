@@ -265,13 +265,13 @@ void ClassMain::initExpressionsMap() {
     commands.insert(pair<string, Expression *>("var", e));
 
     // pay attention - the case of line with a form of: x = 'something'.
-    e = new CommandExpression(new AssignCommand(script, this->symbolTable, mutex));
+    e = new CommandExpression(new AssignCommand(script, this->symbolTable));
     commands.insert(pair<string, Expression *>("assign", e));
 
-    e = new CommandExpression(new WhileCommand(this->symbolTable, script, mutex));
+    e = new CommandExpression(new WhileCommand(this->symbolTable, script));
     commands.insert(pair<string, Expression *>("while", e));
 
-    e = new CommandExpression(new IfCommand(this->symbolTable, script, mutex));
+    e = new CommandExpression(new IfCommand(this->symbolTable, script));
     commands.insert(pair<string, Expression *>("if", e));
 
     e = new CommandExpression(new PrintCommand(this->symbolTable, script));
