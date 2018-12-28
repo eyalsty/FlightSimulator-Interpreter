@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class IfCommand; //foward declaration
+class IfCommand; //forward declaration
 
 class WhileCommand : public ControlParser {
     queue<string> whileOrders;

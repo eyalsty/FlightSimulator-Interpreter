@@ -123,4 +123,3 @@ int ControlParser::execute() {
         return isCondTrue();
     }
 }
-

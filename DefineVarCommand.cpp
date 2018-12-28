@@ -1,5 +1,3 @@
-
-
 #include "DefineVarCommand.h"
 
 int DefineVarCommand::execute() {

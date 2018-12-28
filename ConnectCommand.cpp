@@ -1,7 +1,7 @@
-
 #include "ConnectCommand.h"
 
-void ConnectCommand::sendMessage(string &p, double v){
+//add new message packet to the queue of the packets
+void ConnectCommand::sendMessage(string &p, double v) {
     auto *pack = new MsgPacket;
     pack->path = p;
     pack->value = v;
@@ -47,13 +47,13 @@ void ConnectCommand::openClient(string ip, int port) {
     /* Create a socket point */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
-        perror("ERROR opening socket");
+        perror(OPEN_SOCKET_ERR);
         exit(1);
     }
 
     server = gethostbyname(ip.c_str());
     if (server == NULL) {
-        fprintf(stderr, "ERROR, no such host\n");
+        fprintf(stderr, NO_HOST_ERR);
         exit(0);
     }
     bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -61,14 +61,13 @@ void ConnectCommand::openClient(string ip, int port) {
     bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(port);
 
-    while (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        //perror("ERROR connecting");
-        //exit(1);
-        cout << "WAITING !" << endl;
+    if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+        perror(CONNECT_ERR);
+        exit(1);
     }
-    cout << "succesfully connected to the plane !" << endl;
+    cout << SUCCESSFUL_CONNECT << endl;
 
-    /* the client now listening to mesages in the messages queue.
+    /* the client now listening to messages in the messages queue.
      * if its not empty, it will pop the top message and will sent it to the
      * simulator.
     */
@@ -77,14 +76,14 @@ void ConnectCommand::openClient(string ip, int port) {
             pthread_mutex_lock(&mutex);
             MsgPacket *curr = messages.front();
             string send = "set " + curr->path + " " + to_string(curr->value) + "\r\n";
+
             /* Send message to the server */
 
             n = write(sockfd, send.c_str(), send.size());
             if (n < 0) {
-                perror("ERROR writing to socket");
+                perror(WRITE_ERR);
                 exit(1);
             }
-            cout << "sent:  " << send << endl; //indication for us to see the message sent
             delete curr;
             messages.pop();
             pthread_mutex_unlock(&mutex);

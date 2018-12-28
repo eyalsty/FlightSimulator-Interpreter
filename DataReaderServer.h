@@ -1,5 +1,6 @@
 #ifndef PROJECT1_DATAREADERSERVER_H
 #define PROJECT1_DATAREADERSERVER_H
+
 #define INDICATE_SPEED "/instrumentation/airspeed-indicator/indicated-speed-kt"
 #define INDICATE_ALT "/instrumentation/altimeter/indicated-altitude-ft"
 #define PRESSURE_ALT "/instrumentation/altimeter/pressure-alt-ft"
@@ -27,8 +28,15 @@
 #define MAX_VARS 23
 #define MIL_SEC 1000
 
+#define BIND_ERR "ERROR on binding"
+#define READ_ERR "ERROR reading from socket"
+#define ACCEPT_ERR "ERROR on accept"
+#define CONNECT_SUCCESS "Server's connection established"
+
 #include "SymbolTable.h"
+
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -56,8 +64,6 @@ public:
 
     void openServer(int port, int time);
 
-    //void updateSymbols(double *buffer);
-
     static void *thread_func(void *arg);
 
     inline void stop() {
@@ -71,11 +77,12 @@ public:
     bool getIsConnection () {
         return this->isConnection;
     }
-    pthread_t getThread() {
-        return trid;
-    }
 
     void updateSymbolTable(string& value);
+
+    ~DataReaderServer() {
+        pthread_join(trid, nullptr);
+    }
 
 };
 

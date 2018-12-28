@@ -11,8 +11,6 @@ public:
     double calculate(){
         return value;
     }
-
-    ~Num(){}
 };
 
 

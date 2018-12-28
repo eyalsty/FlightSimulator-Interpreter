@@ -27,8 +27,7 @@ class CommandException {
     string funcName;
 public:
     // getting the name of the function with the Error.
-    CommandException(const string &_funcName) : funcName(_funcName) {}
-
+    explicit CommandException(const string &_funcName) : funcName(_funcName) {}
     void print() const {
         cout << error << funcName << endl;
     }

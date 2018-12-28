@@ -19,7 +19,9 @@ private:
     vector<string> splitVars(string s);
 
 public:
-    SymbolTable(ConnectCommand *client, pthread_mutex_t m) : client(client), m(m) {}
+    SymbolTable(ConnectCommand *client, pthread_mutex_t m) :
+    client(client), m(m) {}
+
     void setVar(string var, double val);
 
     void setPath(string var, string path);

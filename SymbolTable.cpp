@@ -1,4 +1,3 @@
-
 #include "SymbolTable.h"
 
 //ASSUMING VAR EXISTS ALREADY
@@ -20,9 +19,6 @@ void SymbolTable::setVar(string var, double val) {
     //if we updated a var and its binded to the simulator => send him a message
     if (isPathExists(var)) {
         this->client->sendMessage(pathTbl[var],symTbl[var] );
-
-        //string sValue = to_string(symTbl[var]);
-        //this->client->setMembers(true, "set " + pathTbl[var] + " " + sValue + "\r\n");
     }
     pthread_mutex_unlock(&m);
 
@@ -33,17 +29,11 @@ void SymbolTable::setPath(string var, string path) {
 }
 
 bool SymbolTable::isVarExist(string var) {
-    if (symTbl.count(var) > 0) {
-        return true;
-    }
-    return false;
+    return symTbl.count(var) > 0;
 }
 
 bool SymbolTable::isPathExists(string var) {
-    if (pathTbl.find(var) != pathTbl.end()) {
-        return true;
-    }
-    return false;
+    return pathTbl.find(var) != pathTbl.end();
 }
 
 string SymbolTable::switchVarsToVals(string s) {
@@ -92,9 +82,7 @@ void SymbolTable::updateFromSimulator(double num, string path) {
         if (!(it->second.compare(path))) {
             string name = (*it).first;
             cout << endl << (*it).second << "  " << "updated" << endl;
-            //m.lock();
             this->symTbl[name] = num;
-            // m.unlock();
         }
     }
 }

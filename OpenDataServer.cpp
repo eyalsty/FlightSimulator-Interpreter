@@ -1,4 +1,3 @@
-
 #include "OpenDataServer.h"
 
 int OpenDataServer::execute() {

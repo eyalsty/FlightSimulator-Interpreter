@@ -7,7 +7,7 @@
 #include "AssignCommand.h"
 #include "DefineVarCommand.h"
 
-class WhileCommand;//foward declaration
+class WhileCommand;//forward declaration
 
 class IfCommand : public ControlParser {
 public:

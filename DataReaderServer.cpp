@@ -1,4 +1,3 @@
-#include <iostream>
 #include "DataReaderServer.h"
 
 
@@ -22,7 +21,7 @@ void *DataReaderServer::thread_func(void *arg) {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd < 0) {
-        perror("ERROR opening socket");
+        perror(OPEN_SOCKET_ERR);
         exit(1);
     }
 
@@ -36,7 +35,7 @@ void *DataReaderServer::thread_func(void *arg) {
 
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR on binding");
+        perror(BIND_ERR);
         exit(1);
     }
 
@@ -51,12 +50,12 @@ void *DataReaderServer::thread_func(void *arg) {
     newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
 
     if (newsockfd < 0) {
-        perror("ERROR on accept");
+        perror(ACCEPT_ERR);
         exit(1);
     }
 
     params->reader->setIsConnection(true);
-    cout << "Server's connection established\n";
+    cout << CONNECT_SUCCESS << endl;
 
     /* If connection is established then start communicating */
     while (!params->reader->toStop) {
@@ -64,7 +63,7 @@ void *DataReaderServer::thread_func(void *arg) {
         n = read(newsockfd, buffer, 1);
         while (buffer[0] != '\n') {
             if (n < 0) {
-                perror("ERROR reading from socket");
+                perror(READ_ERR);
                 exit(1);
             }
             s += buffer[0];
@@ -96,7 +95,7 @@ void DataReaderServer::updateSymbolTable(string &values) {
     istringstream ss(values);
     char splitChar = ',';
     vector<double> tokens;
-
+//split all string values by ',' and push to vector as double tokens
     for (string value; getline(ss, value, splitChar); tokens.push_back(stod(value)));
 
     pthread_mutex_lock(&mutex);

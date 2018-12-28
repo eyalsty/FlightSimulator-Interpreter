@@ -1,18 +1,18 @@
 #ifndef PROJECT1_SYALGORITHM_H
 #define PROJECT1_SYALGORITHM_H
 
-#include "Expression.h"
 #include <deque>
 #include <string>
 #include <map>
+#include <stack>
 
+#include "Expression.h"
 #include "Plus.h"
 #include "Minus.h"
 #include "Mul.h"
 #include "Div.h"
 #include "Num.h"
 
-#include <stack>
 
 using namespace std;
 

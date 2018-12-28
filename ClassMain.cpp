@@ -5,7 +5,7 @@ void ClassMain::lexer(const char *fileName) {
     ifstream file(fileName);
     // checks for failure opening the file.
     if (!file) {
-        cout << "ERROR! could not open file : " << fileName << endl;
+        cout << FILE_ERROR << fileName << endl;
         return;
     }
     while (getline(file, line)) {
@@ -42,13 +42,12 @@ string ClassMain::getFirstWord(const string &line) {
 
 // for the lexer function.
 void ClassMain::addLineToVector(string &line) {
-    if(line == "\r"){
+    if (line == "\r") {
         return;
     }
     deleteEol(line);
     cleanStartSpaces(line);
     string word = getFirstWord(line);
-    // getFirstWord(line);
     if (word == "var") {
         saveVarCommand(line);
     } else if (word == "while") {
@@ -114,10 +113,12 @@ void ClassMain::saveVarCommand(string line) {
     smatch match;
     regex_search(line, match, reg);
     line = match.suffix().str();
+
     // saving the variable name.
     reg = regex("[^ ]+");
     regex_search(line, match, reg);
     script.push(match.str());
+
     // saving '='.
     line = match.suffix().str();
     reg = regex("=");
@@ -153,11 +154,13 @@ void ClassMain::saveConnectCommand(string line) {
     regex_search(line, match, reg);
     line = match.suffix().str();
 
+    //getting the IP argument
     reg = regex(R"(\d+\.\d+\.\d+\.\d+)");
     regex_search(line, match, reg);
     script.push(match.str());
     line = match.suffix().str();
 
+    //getting the port
     reg = regex("[^ ]");
     string exp;
     while (regex_search(line, match, reg)) {
@@ -203,6 +206,7 @@ void ClassMain::saveOther(string line) {
         script.push("}");
         return;
     }
+    //in case changing value of existing variable
     script.push(getFirstWord(line));
     regex reg("\\w*");
     smatch match;
@@ -213,7 +217,7 @@ void ClassMain::saveOther(string line) {
     line = match.suffix().str();
 
     script.push("=");
-
+    //get the value after the "="
     reg = regex("[^ ]");
     string exp;
     while (regex_search(line, match, reg)) {
@@ -234,16 +238,17 @@ void ClassMain::parser(const char *fileName) {
             e = commands.at(script.front());
             script.pop();
         }
-        //wait until server is connected
+        //wait until client from simulator is connected
         while (!this->read->getIsConnection()) {
-            cout << "waiting for client to connect" << endl;
+            cout << WAIT_CLIENT << endl;
             sleep(3); //wait 3 seconds
             this->connect->setIsConnection(false);
         }
+        //wait until simulator is on, and autostarted
         if (!this->connect->getIsConnection()) {
-            cout << "press enter when autoStart is on" << endl;
+            cout << WAIT_AUTOSTART << endl;
             cin.ignore();
-            cout << "program started" << endl;
+            cout << STARTED << endl;
         }
         if (e != nullptr) {
             // calling execute() from calculate().

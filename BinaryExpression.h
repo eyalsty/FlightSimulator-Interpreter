@@ -14,7 +14,6 @@ public:
     virtual double calculate() = 0;
 
     virtual ~BinaryExpression(){
-        // deallocate memory, maybe needs to be changed.
         delete left;
         delete right;
     }

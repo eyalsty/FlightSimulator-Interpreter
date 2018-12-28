@@ -2,7 +2,6 @@
 #define PROJECT1_CONTROLPARSER_H
 
 #include <list>
-#include <algorithm>
 
 #include "Command.h"
 #include "SymbolTable.h"

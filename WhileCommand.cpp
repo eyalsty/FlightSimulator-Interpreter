@@ -27,7 +27,7 @@ int WhileCommand::execute() {
         // the offset.
         x += 1;
         string token = whileOrders.front();
-        /* not popping immidiatlly because
+        /* not popping immediately because
          * of the assign command (x = 3 for example).*/
         if (!symbolTable->isVarExist(token)) {
             whileOrders.pop();

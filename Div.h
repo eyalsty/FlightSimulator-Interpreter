@@ -3,6 +3,8 @@
 
 #include "BinaryExpression.h"
 
+#define ZERO_DIV "ERROR! Division by zero."
+
 class Div : public BinaryExpression {
 public:
     Div(Expression *_left, Expression *_right)
@@ -10,7 +12,7 @@ public:
 
     virtual double calculate() {
         if (right->calculate() == 0) {
-            throw "ERROR! Division by zero.";
+            throw ZERO_DIV;
         }
         return left->calculate() / right->calculate();
     }
